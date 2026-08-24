@@ -1586,37 +1586,37 @@ const SEED_VIDEOS = [
   {
     "title": "APPSC Group 2 Preparation Strategy & Books",
     "channel_name": "Kalam IAS Academy",
-    "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "video_url": "https://www.youtube.com/results?search_query=APPSC+Group+2+Preparation+Strategy+Books",
     "category": "Strategy"
   },
   {
     "title": "Andhra Pradesh History: Complete Overview for Group 2",
     "channel_name": "Harsha Vardhan Classes",
-    "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "video_url": "https://www.youtube.com/results?search_query=Andhra+Pradesh+History+Complete+Overview+for+APPSC+Group+2",
     "category": "AP History"
   },
   {
     "title": "Indian Constitution: Master Key Articles in Telugu",
     "channel_name": "Polity Guide",
-    "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "video_url": "https://www.youtube.com/results?search_query=Indian+Constitution+Key+Articles+in+Telugu+APPSC",
     "category": "Polity"
   },
   {
     "title": "Mental Ability Arithmetic Shortcuts & Speed Tricks",
     "channel_name": "Maths Easy Tricks",
-    "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "video_url": "https://www.youtube.com/results?search_query=Mental+Ability+Arithmetic+Shortcuts+Speed+Tricks",
     "category": "Mental Ability"
   },
   {
     "title": "AP Government Welfare Schemes - Navaratnalu Complete Guide",
     "channel_name": "Scheme Tracker AP",
-    "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "video_url": "https://www.youtube.com/results?search_query=AP+Government+Welfare+Schemes+Navaratnalu+Complete+Guide",
     "category": "Welfare Schemes"
   },
   {
     "title": "How to score 120+ in APPSC Prelims Screening Test",
     "channel_name": "Topper Talks",
-    "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "video_url": "https://www.youtube.com/results?search_query=How+to+score+120+in+APPSC+Prelims+Screening+Test",
     "category": "Strategy"
   }
 ];
@@ -1627,7 +1627,7 @@ const SEED_PAPERS = [
     "exam_type": "Group 2",
     "stage": "Prelims",
     "paper_name": "Screening Test (General Studies)",
-    "download_url": "https://psc.ap.gov.in/",
+    "download_url": "https://www.sakshieducation.com/appsc/previous-papers",
     "status": "todo",
     "score_logged": null
   },
@@ -1636,7 +1636,7 @@ const SEED_PAPERS = [
     "exam_type": "Group 1",
     "stage": "Prelims",
     "paper_name": "Paper I & II General Studies",
-    "download_url": "https://psc.ap.gov.in/",
+    "download_url": "https://www.sakshieducation.com/appsc/previous-papers",
     "status": "todo",
     "score_logged": null
   },
@@ -1645,7 +1645,7 @@ const SEED_PAPERS = [
     "exam_type": "Group 2",
     "stage": "Prelims",
     "paper_name": "Screening Test",
-    "download_url": "https://psc.ap.gov.in/",
+    "download_url": "https://www.sakshieducation.com/appsc/previous-papers",
     "status": "todo",
     "score_logged": null
   },
@@ -1654,7 +1654,7 @@ const SEED_PAPERS = [
     "exam_type": "Group 2",
     "stage": "Mains",
     "paper_name": "Paper I (Social & Cultural History of AP & Indian Constitution)",
-    "download_url": "https://psc.ap.gov.in/",
+    "download_url": "https://www.sakshieducation.com/appsc/previous-papers",
     "status": "todo",
     "score_logged": null
   },
@@ -1663,7 +1663,7 @@ const SEED_PAPERS = [
     "exam_type": "Group 2",
     "stage": "Mains",
     "paper_name": "Paper II (Indian & AP Economy, Science & Tech)",
-    "download_url": "https://psc.ap.gov.in/",
+    "download_url": "https://www.sakshieducation.com/appsc/previous-papers",
     "status": "todo",
     "score_logged": null
   },
@@ -1672,7 +1672,7 @@ const SEED_PAPERS = [
     "exam_type": "Group 1",
     "stage": "Prelims",
     "paper_name": "Paper I & II Screening Test",
-    "download_url": "https://psc.ap.gov.in/",
+    "download_url": "https://www.sakshieducation.com/appsc/previous-papers",
     "status": "todo",
     "score_logged": null
   },
@@ -1681,7 +1681,7 @@ const SEED_PAPERS = [
     "exam_type": "Group 1",
     "stage": "Mains",
     "paper_name": "Paper I (General Essay)",
-    "download_url": "https://psc.ap.gov.in/",
+    "download_url": "https://www.sakshieducation.com/appsc/previous-papers",
     "status": "todo",
     "score_logged": null
   },
@@ -1690,7 +1690,7 @@ const SEED_PAPERS = [
     "exam_type": "Group 1",
     "stage": "Mains",
     "paper_name": "Paper II (History, Culture & Geography of India & AP)",
-    "download_url": "https://psc.ap.gov.in/",
+    "download_url": "https://www.sakshieducation.com/appsc/previous-papers",
     "status": "todo",
     "score_logged": null
   },
@@ -1699,7 +1699,7 @@ const SEED_PAPERS = [
     "exam_type": "Group 1",
     "stage": "Mains",
     "paper_name": "Paper III (Polity, Constitution, Governance, Law & Ethics)",
-    "download_url": "https://psc.ap.gov.in/",
+    "download_url": "https://www.sakshieducation.com/appsc/previous-papers",
     "status": "todo",
     "score_logged": null
   },
@@ -1708,7 +1708,7 @@ const SEED_PAPERS = [
     "exam_type": "Group 1",
     "stage": "Mains",
     "paper_name": "Paper IV (Economy & Development of India & AP)",
-    "download_url": "https://psc.ap.gov.in/",
+    "download_url": "https://www.sakshieducation.com/appsc/previous-papers",
     "status": "todo",
     "score_logged": null
   },
@@ -1717,7 +1717,7 @@ const SEED_PAPERS = [
     "exam_type": "Group 1",
     "stage": "Mains",
     "paper_name": "Paper V (Science & Technology)",
-    "download_url": "https://psc.ap.gov.in/",
+    "download_url": "https://www.sakshieducation.com/appsc/previous-papers",
     "status": "todo",
     "score_logged": null
   }
