@@ -158,7 +158,7 @@
                     <button onclick="switchLanguage('en')" id="lang-btn-en" class="px-2.5 py-1 rounded text-xs font-semibold bg-brand-600 text-white">English</button>
                     <button onclick="switchLanguage('te')" id="lang-btn-te" class="px-2.5 py-1 rounded text-xs font-semibold text-slate-400 hover:text-white">తెలుగు</button>
                 </div>
-                <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                <span id="status-indicator" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                     <i class="fa-solid fa-circle text-[8px] mr-1.5 animate-pulse"></i><span data-translate="status_badge">Connected</span>
                 </span>
             </div>
@@ -1306,7 +1306,19 @@
     <script>
         // Check if API server is online, else fallback to localStorage
         let isOfflineMode = false;
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1' && window.location.hostname !== '') {
+            isOfflineMode = true;
+        }
+
         const API_URL = "";
+
+        function updateOfflineBadge() {
+            const statusBadge = document.getElementById('status-indicator');
+            if (statusBadge) {
+                statusBadge.innerHTML = '<i class="fa-solid fa-circle text-[8px] mr-1.5 animate-pulse text-amber-500"></i>Running Offline (Local Storage)';
+                statusBadge.className = "text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20";
+            }
+        }
 
         // Intercept native fetch for offline mode
         const originalFetch = window.fetch;
@@ -1326,15 +1338,14 @@
             if (!isOfflineMode) {
                 try {
                     const response = await originalFetch(url, options);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
                     return response;
                 } catch (e) {
-                    console.warn("Local API server offline. Switching transparently to Offline Storage Mode.", e);
+                    console.warn("Local API server offline or inaccessible. Switching transparently to Offline Storage Mode.", e);
                     isOfflineMode = true;
-                    const statusBadge = document.getElementById('status-indicator');
-                    if (statusBadge) {
-                        statusBadge.innerText = "Running Offline (Local Storage)";
-                        statusBadge.className = "text-xs font-semibold px-2.5 py-1 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20";
-                    }
+                    updateOfflineBadge();
                 }
             }
 
@@ -2237,6 +2248,9 @@
         });
 
         function initApp() {
+            if (isOfflineMode) {
+                updateOfflineBadge();
+            }
             const todayStr = new Date().toISOString().split('T')[0];
             document.getElementById('mock-date').value = todayStr;
             document.getElementById('schedule-input-date').value = todayStr;
