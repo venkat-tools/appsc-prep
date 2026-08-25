@@ -717,6 +717,38 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Geography Map Pointing Center -->
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
+                    <div class="flex flex-wrap items-center justify-between border-b border-slate-850 pb-3 gap-2">
+                        <h3 class="font-bold text-slate-200 text-sm flex items-center">
+                            <i class="fa-solid fa-map-location-dot text-emerald-400 mr-2 text-lg"></i>
+                            <span data-translate="geo_map_center_title">AP Geography Map Pointing Center (మ్యాప్ పాయింటింగ్)</span>
+                        </h3>
+                        <div class="inline-flex rounded-lg border border-slate-800 p-0.5 bg-slate-900 text-xs">
+                            <button onclick="switchGeoMap('rivers')" id="btn-map-rivers" class="px-3.5 py-1.5 rounded-md font-semibold bg-brand-600 text-white">Rivers & Projects</button>
+                            <button onclick="switchGeoMap('physical')" id="btn-map-physical" class="px-3.5 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">Hills & Peaks</button>
+                            <button onclick="switchGeoMap('coast')" id="btn-map-coast" class="px-3.5 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">Ports & Lakes</button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+                        <!-- Map Display -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex flex-col justify-center items-center shadow-inner">
+                            <div class="w-full relative overflow-hidden rounded-lg border border-slate-850 bg-slate-950">
+                                <img id="geo-map-img" src="images/ap_rivers_map.jpg" alt="AP Rivers Map" class="w-full h-auto object-contain max-h-[380px] transition-all duration-300 hover:scale-105 cursor-zoom-in">
+                            </div>
+                            <p class="text-[10px] text-slate-500 mt-2 text-center" data-translate="map_zoom_hint"><i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Hover or pinch to zoom map details</p>
+                        </div>
+                        
+                        <!-- Map Locations table / Study Guide -->
+                        <div class="space-y-4 max-h-[420px] overflow-y-auto pr-1 text-xs">
+                            <div id="geo-map-guide-container" class="space-y-3">
+                                <!-- Location items injected here dynamically based on map selection -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <!-- ==================== SYLLABUS TAB ==================== -->
@@ -4411,6 +4443,130 @@
             const expl = document.getElementById(`ca-explanation-${qIdx}`);
             if (expl) expl.classList.remove('hidden');
         }
+
+        // Geography Map Pointing Data & Renderer
+        const GEO_MAP_DATA = {
+            rivers: [
+                {
+                    name: "Godavari River (గోదావరి నది)",
+                    details: "Enters AP at Bhadrachalam. Major tributaries: Sabari, Pranahita, Manjira. Forms a wide delta before emptying into the Bay of Bengal at Yanam/Antarvedi.",
+                    importance: "Lifeline of Northern AP. The Sir Arthur Cotton Barrage at Dowleswaram distributes its waters."
+                },
+                {
+                    name: "Polavaram Project (పోలవరం ప్రాజెక్ట్)",
+                    details: "Under-construction multi-purpose national irrigation project on the Godavari River in Eluru District.",
+                    importance: "Designed to irrigate 7.2 lakh acres, generate 960MW power, and divert water to the Krishna basin."
+                },
+                {
+                    name: "Krishna River (కృష్ణా నది)",
+                    details: "Enters AP at Sangameswaram (Kurnool). Key tributaries: Tungabhadra, Musi, Koyna, Bhima, Ghataprabha.",
+                    importance: "Feeds the Prakasam Barrage at Vijayawada, nurturing the highly fertile Krishna Delta region."
+                },
+                {
+                    name: "Srisailam Dam (శ్రీశైలం డ్యామ్)",
+                    details: "Major hydroelectric project built in a deep gorge of Nallamala Hills on the Krishna River (border of Nandyal & Mahabubnagar districts).",
+                    importance: "Main storage reservoir supplying drinking and irrigation water to Rayalaseema and Nellore."
+                },
+                {
+                    name: "Pennar River (పెన్నా నది)",
+                    details: "Originates in Nandi Hills (Karnataka). Flows through Anantapur, Kadapa, and Nellore districts.",
+                    importance: "Somasila Reservoir is built across it, acting as the primary water source for South AP."
+                }
+            ],
+            physical: [
+                {
+                    name: "Eastern Ghats (తూర్పు కనుమలు)",
+                    details: "Discontinuous mountain chain running parallel to the east coast. Known for rich deciduous forests and biodiversity.",
+                    importance: "Modulates local wind patterns, intercepts coastal monsoon winds, and holds crucial mineral deposits."
+                },
+                {
+                    name: "Arma Konda / Jindhagada (అర్మకొండ / జింధగడ)",
+                    details: "Highest peaks of the Eastern Ghats in AP (Jindhagada Peak ~1,690m; Arma Konda ~1,680m) in Araku Valley, Visakhapatnam district.",
+                    importance: "Frequently asked high-yield question in competitive exams regarding state geography peaks."
+                },
+                {
+                    name: "Nallamala Hills (నల్లమల కొండలు)",
+                    details: "Dense forest mountain range spanning Nandyal, Palnadu, and Prakasam districts.",
+                    importance: "Hosts the Nagarjunasagar-Srisailam Tiger Reserve, the largest Tiger Reserve in India."
+                },
+                {
+                    name: "Seshachalam Hills (శేషాచలం కొండలు)",
+                    details: "Located in Tirupati & Kadapa districts. Declared as a Biosphere Reserve by UNESCO in 2010.",
+                    importance: "Home to the sacred Tirumala Hills and rare endemic Red Sanders (ఎర్ర చందనం) trees."
+                },
+                {
+                    name: "Araku Valley & Borra Caves (అరకు లోయ & బొర్రా గుహలు)",
+                    details: "Araku is a scenic hill station in ASR district. Borra Caves are million-year-old natural limestone structures.",
+                    importance: "Key tribal cultural hub and tourist landmark showing natural geological weathering."
+                }
+            ],
+            coast: [
+                {
+                    name: "Visakhapatnam Port (విశాఖపట్నం పోర్ట్)",
+                    details: "One of India's largest major ports. Landlocked and natural harbor protected by Dolphin's Nose hill range.",
+                    importance: "Busiest bulk cargo handling port on the east coast, facilitating trade with East Asia."
+                },
+                {
+                    name: "Kolleru Lake (కొల్లేరు సరస్సు)",
+                    details: "One of the largest natural freshwater lakes in India, located between Krishna and Godavari deltas (Eluru/Kolleru area).",
+                    importance: "Ramsar wetland site. Crucial habitat for migratory birds (Siberian Cranes, Grey Pelicans)."
+                },
+                {
+                    name: "Pulicat Lake (పులికాట్ సరస్సు)",
+                    details: "Second largest brackish water lagoon in India, situated on the border of Nellore (AP) and Tamil Nadu.",
+                    importance: "Separated from the sea by the Sriharikota spit (Satish Dhawan Space Centre launch site)."
+                },
+                {
+                    name: "Nelapattu Bird Sanctuary (నేలపట్టు పక్షుల సంరక్షణాలయం)",
+                    details: "Located near Pulicat Lake in Nellore. Important breeding site for Grey Pelicans and Openbill Storks.",
+                    importance: "Highlight of ecological tourism and environmental conservation topics in APPSC."
+                },
+                {
+                    name: "Krishnapatnam Port (కృష్ణపట్నం పోర్ట్)",
+                    details: "Deepwater private port in Nellore district, with modern automated cargo handling infrastructure.",
+                    importance: "Acts as a major industrial corridor node under the Vizag-Chennai Industrial Corridor (VCIC)."
+                }
+            ]
+        };
+
+        function switchGeoMap(mapType) {
+            const mapImg = document.getElementById('geo-map-img');
+            const guideContainer = document.getElementById('geo-map-guide-container');
+            if (!mapImg || !guideContainer) return;
+
+            mapImg.src = `images/ap_${mapType}_map.jpg`;
+            mapImg.alt = `AP ${mapType} Map`;
+
+            ['rivers', 'physical', 'coast'].forEach(t => {
+                const btn = document.getElementById(`btn-map-${t}`);
+                if (btn) {
+                    if (t === mapType) {
+                        btn.className = "px-3.5 py-1.5 rounded-md font-semibold bg-brand-600 text-white";
+                    } else {
+                        btn.className = "px-3.5 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white";
+                    }
+                }
+            });
+
+            guideContainer.innerHTML = '';
+            const locations = GEO_MAP_DATA[mapType] || [];
+            locations.forEach(loc => {
+                const locCard = document.createElement('div');
+                locCard.className = 'p-3 bg-slate-900 border border-slate-800 rounded-lg space-y-1 hover:border-slate-700 transition-colors mt-3';
+                locCard.innerHTML = `
+                    <div class="font-bold text-slate-200 text-xs flex items-center">
+                        <i class="fa-solid fa-location-pin text-rose-500 mr-1.5"></i>
+                        <span>${loc.name}</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 leading-normal"><strong class="text-indigo-400">${globalLang === 'te' ? 'భౌగోళిక వివరాలు:' : 'Details:'}</strong> ${loc.details}</p>
+                    <p class="text-[11px] text-slate-300 leading-normal"><strong class="text-emerald-400">${globalLang === 'te' ? 'పరీక్షా ప్రాముఖ్యత:' : 'Exam Weightage:'}</strong> ${loc.importance}</p>
+                `;
+                guideContainer.appendChild(locCard);
+            });
+        }
+
+        // Initialize Geography Map on load
+        setTimeout(() => switchGeoMap('rivers'), 200);
 
         // Timetable Data & Renderer
         let timetableData = [];
