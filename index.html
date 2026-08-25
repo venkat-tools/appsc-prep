@@ -2001,10 +2001,13 @@
                     setLocal('off_timetable', timetable);
                 }
                 else if (path === "/api/current_affairs/sync") {
-                    const existing = getLocal('off_current_affairs');
                     let added = 0;
-                    if (existing.length === 0 && typeof SEED_CURRENT_AFFAIRS !== 'undefined') {
-                        setLocal('off_current_affairs', SEED_CURRENT_AFFAIRS);
+                    if (typeof SEED_CURRENT_AFFAIRS !== 'undefined') {
+                        const existing = getLocal('off_current_affairs') || [];
+                        const seedIds = new Set(SEED_CURRENT_AFFAIRS.map(s => s.id));
+                        const userItems = existing.filter(item => !seedIds.has(item.id) && item.id > 1000);
+                        const merged = [...SEED_CURRENT_AFFAIRS, ...userItems];
+                        setLocal('off_current_affairs', merged);
                         added = SEED_CURRENT_AFFAIRS.length;
                     }
                     responseData = { success: true, added: added };
@@ -2536,6 +2539,13 @@
         function initApp() {
             if (isOfflineMode) {
                 updateOfflineBadge();
+                if (typeof SEED_CURRENT_AFFAIRS !== 'undefined') {
+                    const existing = getLocal('off_current_affairs') || [];
+                    const needsUpgrade = existing.some(item => !item.id || item.link === 'https://psc.ap.gov.in/');
+                    if (needsUpgrade || existing.length === 0) {
+                        setLocal('off_current_affairs', SEED_CURRENT_AFFAIRS);
+                    }
+                }
             }
             const todayStr = new Date().toISOString().split('T')[0];
             document.getElementById('mock-date').value = todayStr;
