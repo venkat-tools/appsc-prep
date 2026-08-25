@@ -313,6 +313,40 @@
                     </div>
                 </div>
 
+                <!-- Streak & Subject Progress Row -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Daily Study Streak & Motivation -->
+                    <div class="bg-gradient-to-br from-slate-950 to-indigo-950/20 border border-slate-800 rounded-xl p-5 shadow-sm space-y-4 flex flex-col justify-between">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-bold text-slate-200 text-sm flex items-center">
+                                <i class="fa-solid fa-fire text-amber-500 mr-2 animate-pulse text-lg"></i>
+                                <span data-translate="streak_title">Daily Study Streak</span>
+                            </h3>
+                            <span id="streak-badge" class="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-3 py-1 rounded-full text-xs font-bold flex items-center">
+                                <i class="fa-solid fa-fire-flame-curved mr-1"></i> <span id="streak-days">0 Days</span>
+                            </span>
+                        </div>
+                        <div class="p-3.5 bg-slate-900/60 border border-slate-850 rounded-lg space-y-2 flex-1 flex flex-col justify-center">
+                            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider flex items-center">
+                                <i class="fa-solid fa-quote-left text-indigo-400 mr-1.5"></i> Today's Quote / మోటివేషన్
+                            </p>
+                            <p id="motivational-quote-te" class="text-xs font-bold text-indigo-300 leading-relaxed italic">"గమ్యం చేరేవరకు నిరంతరం శ్రమించు."</p>
+                            <p id="motivational-quote-en" class="text-[10px] text-slate-400 italic">"Success is the sum of small efforts repeated day in and day out."</p>
+                        </div>
+                    </div>
+
+                    <!-- Subject-wise Syllabus Progress Bars -->
+                    <div class="lg:col-span-2 bg-slate-950 border border-slate-800 rounded-xl p-5 shadow-sm space-y-3.5">
+                        <h3 class="font-bold text-slate-200 text-sm flex items-center border-b border-slate-850 pb-2">
+                            <i class="fa-solid fa-bars-progress text-indigo-400 mr-2 text-lg"></i>
+                            <span data-translate="subject_progress_title">Syllabus Completion by Subject</span>
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3 text-[11px]" id="subject-progress-container">
+                            <!-- Dynamic subject bars will be injected here -->
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Charts Section -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Daily Study Hours Chart -->
@@ -589,6 +623,11 @@
                         <i class="fa-solid fa-scale-balanced text-indigo-400 mr-2"></i>
                         <span data-translate="polity_cheat_sheet_title">APPSC Polity & Constitution High-Yield Cheat Sheet</span>
                     </h3>
+                    
+                    <div class="relative max-w-sm">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-500 text-[10px]"></i>
+                        <input type="text" id="polity-search" oninput="filterPolityCheatSheet()" placeholder="Search articles or amendments (e.g., Equality, DPSP, 42nd)..." class="w-full pl-8 bg-slate-900 border border-slate-800 rounded-lg p-2 text-[11px] text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors">
+                    </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
                         <!-- Important Articles -->
@@ -1326,20 +1365,23 @@
             <!-- ==================== PREP TIPS & BOOKS TAB ==================== -->
             <section id="tab-tips" class="space-y-6 hidden">
                 <!-- Concept Mind Maps Visualizer -->
-                <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
-                    <div class="flex justify-between items-center border-b border-slate-855 pb-3">
-                        <h3 class="font-bold text-slate-200 flex items-center">
-                            <i class="fa-solid fa-diagram-project text-indigo-400 mr-2"></i>
-                            <span data-translate="mind_maps_title">Interactive Concept Maps</span>
+                <div class="bg-slate-955 border border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
+                    <div class="flex flex-wrap items-center justify-between border-b border-slate-850 pb-3 gap-2">
+                        <h3 class="font-bold text-slate-200 text-sm flex items-center">
+                            <i class="fa-solid fa-diagram-project text-indigo-400 mr-2 text-lg"></i>
+                            <span data-translate="mind_maps_title">Quick Revision Mind Maps (మైండ్ మ్యాప్స్)</span>
                         </h3>
                         <div class="inline-flex rounded-lg border border-slate-800 p-0.5 bg-slate-900 text-xs">
-                            <button onclick="renderConceptMap('ap_reorg')" id="btn-map-ap" class="px-3.5 py-1.5 rounded-md font-semibold bg-brand-600 text-white">AP Reorganisation Act</button>
-                            <button onclick="renderConceptMap('constitution')" id="btn-map-const" class="px-3.5 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">Constitution Structure</button>
+                            <button onclick="switchMindmap('ap_reorg')" id="btn-mindmap-ap" class="px-3.5 py-1.5 rounded-md font-semibold bg-brand-600 text-white">AP Reorganisation Act</button>
+                            <button onclick="switchMindmap('british_acts')" id="btn-mindmap-acts" class="px-3.5 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">British Constitutional Acts</button>
                         </div>
                     </div>
-                    <!-- Mermaid Node Container -->
-                    <div class="relative bg-slate-950 p-6 rounded-xl border border-slate-850 overflow-x-auto min-h-[300px]">
-                        <div class="flex justify-center" id="mermaid-viewer"></div>
+                    
+                    <div class="bg-slate-900 border border-slate-850 rounded-xl p-3 flex flex-col justify-center items-center shadow-inner">
+                        <div class="w-full relative overflow-hidden rounded-lg border border-slate-800 bg-slate-950 flex items-center justify-center">
+                            <img id="mindmap-img" onclick="openMapZoom('mindmap-img')" src="images/mindmap_ap_reorg.jpg" alt="AP Reorganisation Act Mindmap" class="w-full h-auto object-contain max-h-[420px] cursor-zoom-in hover:brightness-110 transition-all duration-200">
+                        </div>
+                        <p class="text-[10px] text-slate-500 mt-2 text-center"><i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Click / Tap mind map to view full-screen & zoom details</p>
                     </div>
                 </div>
 
@@ -2486,6 +2528,11 @@
             fetchRepeatedQuestions();
             switchLanguage('en');
             calculateNegativeScore();
+            rotateMotivationalQuote();
+            setTimeout(() => {
+                renderSubjectProgress();
+                calculateStudyStreak();
+            }, 500);
         }
 
         function updateCountdowns() {
@@ -2640,6 +2687,7 @@
                 const res = await fetch(`${API_URL}/api/syllabus`);
                 syllabusData = await res.json();
                 renderSyllabusAccordion();
+                renderSubjectProgress();
             } catch (err) {
                 console.error("Error fetching syllabus:", err);
             }
@@ -3635,6 +3683,7 @@
                     if (idx !== -1) syllabusData[idx].status = newStatus;
                     renderSyllabusAccordion();
                     fetchStats();
+                    renderSubjectProgress();
                 }
             } catch (err) {
                 console.error(err);
@@ -3783,6 +3832,7 @@
                     if (timerMode === 'stopwatch') resetTimer();
                     fetchLogs();
                     fetchStats();
+                    setTimeout(calculateStudyStreak, 300);
                 }
             } catch (err) {
                 console.error(err);
@@ -4797,8 +4847,10 @@
             });
         }
 
-        function openMapZoom() {
-            const currentImgSrc = document.getElementById('geo-map-img').src;
+        function openMapZoom(imgId = 'geo-map-img') {
+            const currentImg = document.getElementById(imgId);
+            if (!currentImg) return;
+            const currentImgSrc = currentImg.src;
             const modalImg = document.getElementById('modal-map-img');
             const modal = document.getElementById('map-zoom-modal');
             if (modalImg && modal) {
@@ -4814,6 +4866,161 @@
                 modal.classList.add('hidden');
                 document.body.style.overflow = '';
             }
+        }
+
+        // Quick Revision Mindmaps switcher
+        function switchMindmap(mapType) {
+            const mapImg = document.getElementById('mindmap-img');
+            if (!mapImg) return;
+            mapImg.src = `images/mindmap_${mapType}.jpg`;
+            mapImg.alt = `${mapType} Mindmap`;
+
+            ['ap_reorg', 'british_acts'].forEach(t => {
+                const btn = document.getElementById(`btn-mindmap-${t === 'ap_reorg' ? 'ap' : 'acts'}`);
+                if (btn) {
+                    if (t === mapType) {
+                        btn.className = "px-3.5 py-1.5 rounded-md font-semibold bg-brand-600 text-white";
+                    } else {
+                        btn.className = "px-3.5 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white";
+                    }
+                }
+            });
+        }
+
+        // Polity Articles/Amendments Filter
+        function filterPolityCheatSheet() {
+            const query = document.getElementById('polity-search').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('#tab-prelims [class*="bg-slate-900/40"]');
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Render Subject Progress Bars on Dashboard
+        function renderSubjectProgress() {
+            const container = document.getElementById('subject-progress-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const subjects = {};
+            syllabusData.forEach(item => {
+                if (!subjects[item.subject]) {
+                    subjects[item.subject] = { total: 0, completed: 0 };
+                }
+                subjects[item.subject].total++;
+                if (item.status === 'completed') {
+                    subjects[item.subject].completed++;
+                } else if (item.status === 'in_progress') {
+                    subjects[item.subject].completed += 0.5;
+                }
+            });
+
+            Object.entries(subjects).forEach(([subj, stats]) => {
+                const pct = stats.total > 0 ? Math.round((stats.completed / stats.total) * 100) : 0;
+                const dispSubject = globalLang === 'te' ? (SUBJECT_TRANSLATIONS[subj] || subj) : subj;
+                
+                const subjectDiv = document.createElement('div');
+                subjectDiv.className = 'space-y-1.5';
+                subjectDiv.innerHTML = `
+                    <div class="flex justify-between font-semibold text-slate-350 text-[10px] md:text-xs">
+                        <span>${dispSubject}</span>
+                        <span class="text-indigo-400 font-bold">${pct}%</span>
+                    </div>
+                    <div class="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden border border-slate-850">
+                        <div class="bg-indigo-500 h-1.5 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+                    </div>
+                `;
+                container.appendChild(subjectDiv);
+            });
+        }
+
+        // Calculate Study Streak Days
+        function calculateStudyStreak() {
+            const streakDaysLabel = document.getElementById('streak-days');
+            if (!streakDaysLabel) return;
+
+            let logDates = [];
+            if (isOfflineMode) {
+                const logs = getLocal('off_study_logs');
+                logDates = logs.map(l => l.log_date);
+            } else {
+                const rows = Array.from(document.querySelectorAll('#history-table-body tr'));
+                logDates = rows.map(r => r.cells[0]?.innerText).filter(d => d && d.match(/^\d{4}-\d{2}-\d{2}$/));
+            }
+
+            if (logDates.length === 0) {
+                streakDaysLabel.innerText = globalLang === 'te' ? "0 రోజులు" : "0 Days";
+                return;
+            }
+
+            const uniqueDates = [...new Set(logDates)].sort().reverse();
+            const parseDate = (dStr) => {
+                const parts = dStr.split('-');
+                return new Date(parts[0], parts[1] - 1, parts[2]);
+            };
+
+            const todayStr = new Date().toISOString().split('T')[0];
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+            let streak = 0;
+            let currentCheckDate = null;
+
+            if (uniqueDates[0] === todayStr) {
+                streak = 1;
+                currentCheckDate = parseDate(todayStr);
+            } else if (uniqueDates[0] === yesterdayStr) {
+                streak = 1;
+                currentCheckDate = parseDate(yesterdayStr);
+            } else {
+                streakDaysLabel.innerText = globalLang === 'te' ? "0 రోజులు" : "0 Days";
+                return;
+            }
+
+            for (let i = 1; i < uniqueDates.length; i++) {
+                const prevDate = parseDate(uniqueDates[i]);
+                const diffTime = Math.abs(currentCheckDate - prevDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays === 1) {
+                    streak++;
+                    currentCheckDate = prevDate;
+                } else if (diffDays > 1) {
+                    break;
+                }
+            }
+
+            const labelStr = globalLang === 'te' ? `${streak} రోజులు` : `${streak} Day${streak > 1 ? 's' : ''}`;
+            streakDaysLabel.innerText = labelStr;
+        }
+
+        // Study Quotes Rotation
+        const STUDY_QUOTES = [
+            { te: "గమ్యం చేరేవరకు నిరంతరం శ్రమించు.", en: "Success is the sum of small efforts repeated day in and day out." },
+            { te: "విజయం అనేది ప్రయత్నం వెనుక దాగి ఉంటుంది.", en: "Believe you can and you're halfway there." },
+            { te: "కష్టపడి చదివిన చదువు ఎన్నడూ వృథా పోదు.", en: "The secret of getting ahead is getting started." },
+            { te: "లక్ష్యం వైపు సాగే ప్రయాణంలో అలసట లేదు.", en: "It always seems impossible until it's done." },
+            { te: "ఈ రోజు నీ కష్టం రేపు నీ విజయానికి బాటలు వేస్తుంది.", en: "Don't wish it were easier. Wish you were better." },
+            { te: "క్రమశిక్షణే విజయానికి ప్రథమ మెట్టు.", en: "Discipline is the bridge between goals and accomplishment." },
+            { te: "పరిపూర్ణ ప్రయత్నమే నిన్ను అగ్రస్థానంలో నిలబెడుతుంది.", en: "Hard work beats talent when talent doesn't work hard." }
+        ];
+
+        function rotateMotivationalQuote() {
+            const teQuoteEl = document.getElementById('motivational-quote-te');
+            const enQuoteEl = document.getElementById('motivational-quote-en');
+            if (!teQuoteEl || !enQuoteEl) return;
+
+            const day = new Date().getDate();
+            const quote = STUDY_QUOTES[day % STUDY_QUOTES.length];
+
+            teQuoteEl.innerText = `"${quote.te}"`;
+            enQuoteEl.innerText = `"${quote.en}"`;
         }
     </script>
 
