@@ -1309,6 +1309,16 @@
                                 <i class="fa-solid fa-rotate mr-2" id="sync-icon"></i><span data-translate="btn_sync_ca">Sync Daily Updates</span>
                             </button>
                         </div>
+                        
+                        <!-- Category Filters -->
+                        <div class="flex flex-wrap gap-1.5 pb-2 text-[10px] md:text-[11px]" id="ca-category-filters">
+                            <button onclick="filterCACategory('all')" id="btn-ca-all" class="px-3 py-1.5 rounded bg-brand-600 text-white font-semibold shadow-sm transition-all">All (అన్నీ)</button>
+                            <button onclick="filterCACategory('ఆంధ్రప్రదేశ్')" id="btn-ca-ap" class="px-3 py-1.5 rounded bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition-all">Andhra Pradesh (ఏపీ)</button>
+                            <button onclick="filterCACategory('జాతీయం')" id="btn-ca-national" class="px-3 py-1.5 rounded bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition-all">National (జాతీయం)</button>
+                            <button onclick="filterCACategory('అంతర్జాతీయం')" id="btn-ca-intl" class="px-3 py-1.5 rounded bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition-all">International (అంతర్జాతీయం)</button>
+                            <button onclick="filterCACategory('సైన్స్ & టెక్నాలజీ')" id="btn-ca-st" class="px-3 py-1.5 rounded bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition-all">Science & Tech (ఎస్ అండ్ టీ)</button>
+                        </div>
+
                         <div class="space-y-4 overflow-y-auto max-h-[600px] pr-1" id="ca-feed-container"></div>
                     </div>
 
@@ -4347,38 +4357,116 @@
             }
         }
 
+        let activeCACategory = 'all';
         function renderCAFeed() {
             const container = document.getElementById('ca-feed-container');
             if (!container) return;
             container.innerHTML = '';
-            if (caData.length === 0) {
-                container.innerHTML = `<div class="text-center text-slate-500 py-10 bg-slate-955 border border-slate-800 rounded-xl">No current affairs entries. Click sync to fetch.</div>`;
+            
+            let filtered = caData;
+            if (activeCACategory !== 'all') {
+                filtered = caData.filter(item => item.category === activeCACategory);
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-center text-slate-500 py-10 bg-slate-955 border border-slate-800 rounded-xl">No current affairs entries in this category.</div>`;
                 return;
             }
-            caData.forEach(item => {
+            filtered.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-2.5 shadow-sm';
-                let linkButton = '';
-                if (item.link) {
-                    linkButton = `
-                        <a href="${item.link}" target="_blank" class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold inline-flex items-center">
-                            ${globalLang === 'te' ? 'పూర్తి లింక్' : 'Read Full Article'} <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]"></i>
-                        </a>
-                    `;
-                }
+                let linkButton = `
+                    <button onclick="openCAArticleModal(${item.id})" class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold inline-flex items-center bg-transparent border-0 cursor-pointer">
+                        ${globalLang === 'te' ? 'పూర్తి లింక్' : 'Read Full Article'} <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]"></i>
+                    </button>
+                `;
                 card.innerHTML = `
                     <div class="flex justify-between items-start text-[10px] font-semibold text-slate-400">
                         <span class="bg-indigo-500/10 text-indigo-400 px-2 py-0.5 rounded border border-indigo-500/15">${item.category}</span>
                         <span>${item.publish_date}</span>
                     </div>
                     <h4 class="text-sm font-bold text-white leading-snug">${item.title}</h4>
-                    <p class="text-xs text-slate-300 leading-relaxed">${item.content}</p>
+                    <p class="text-xs text-slate-300 leading-relaxed line-clamp-2">${item.content}</p>
                     <div class="pt-1 flex justify-end">
                         ${linkButton}
                     </div>
                 `;
                 container.appendChild(card);
             });
+        }
+
+        // Category filter for Current Affairs
+        function filterCACategory(category) {
+            activeCACategory = category;
+            
+            // Loop and reset styles of filter buttons
+            const cats = ['all', 'ap', 'national', 'intl', 'st'];
+            cats.forEach(c => {
+                const btn = document.getElementById(`btn-ca-${c}`);
+                if (btn) {
+                    btn.className = "px-3 py-1.5 rounded bg-slate-900 text-slate-400 hover:text-white border border-slate-800 transition-all";
+                }
+            });
+            
+            // Highlight active one
+            let activeBtn = null;
+            if (category === 'all') activeBtn = document.getElementById('btn-ca-all');
+            else if (category === 'ఆంధ్రప్రదేశ్') activeBtn = document.getElementById('btn-ca-ap');
+            else if (category === 'జాతీయం') activeBtn = document.getElementById('btn-ca-national');
+            else if (category === 'అంతర్జాతీయం') activeBtn = document.getElementById('btn-ca-intl');
+            else if (category === 'సైన్స్ & టెక్నాలజీ') activeBtn = document.getElementById('btn-ca-st');
+            
+            if (activeBtn) {
+                activeBtn.className = "px-3 py-1.5 rounded bg-brand-600 text-white font-semibold shadow-sm transition-all";
+            }
+            
+            renderCAFeed();
+        }
+
+        // Open Current Affairs Article Detail Popup Modal
+        function openCAArticleModal(articleId) {
+            const item = caData.find(c => c.id === articleId);
+            if (!item) return;
+
+            document.getElementById('modal-ca-category').innerText = item.category || 'General';
+            document.getElementById('modal-ca-date').innerText = item.publish_date || '';
+            document.getElementById('modal-ca-title').innerText = item.title || '';
+            
+            const contentEl = document.getElementById('modal-ca-content');
+            contentEl.innerHTML = '';
+            if (item.content) {
+                const paragraphs = item.content.split('\n');
+                paragraphs.forEach(p => {
+                    if (p.trim()) {
+                        const pEl = document.createElement('p');
+                        pEl.innerText = p.trim();
+                        pEl.className = "mb-2.5 last:mb-0";
+                        contentEl.appendChild(pEl);
+                    }
+                });
+            }
+
+            const linkEl = document.getElementById('modal-ca-link');
+            if (item.link) {
+                linkEl.href = item.link;
+                linkEl.style.display = '';
+            } else {
+                linkEl.style.display = 'none';
+            }
+
+            const modal = document.getElementById('ca-article-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeCAArticleModal() {
+            const modal = document.getElementById('ca-article-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
         }
 
         async function syncCurrentAffairs() {
@@ -5029,6 +5117,26 @@
         <button class="absolute top-6 right-6 text-white hover:text-slate-300 transition-colors bg-slate-900/60 border border-slate-700/50 hover:bg-slate-800 h-10 w-10 rounded-full flex items-center justify-center text-lg z-[10000]" onclick="closeMapZoom()">&times;</button>
         <div class="max-w-[95vw] max-h-[95vh] overflow-auto flex items-center justify-center rounded-xl bg-slate-950 border border-slate-800 p-2.5 shadow-2xl" onclick="event.stopPropagation()">
             <img id="modal-map-img" src="" alt="Zoomed Map" class="w-full h-auto object-contain max-h-[88vh] rounded shadow-lg cursor-zoom-out select-none" onclick="closeMapZoom()">
+        </div>
+    </div>
+
+    <!-- Current Affairs Article Modal -->
+    <div id="ca-article-modal" class="fixed inset-0 bg-black/90 z-[9999] hidden flex items-center justify-center p-4 cursor-pointer" onclick="closeCAArticleModal()">
+        <div class="bg-slate-950 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative cursor-default" onclick="event.stopPropagation()">
+            <button class="absolute top-4 right-4 text-slate-500 hover:text-white text-2xl transition-colors" onclick="closeCAArticleModal()">&times;</button>
+            <div class="flex justify-between items-center text-[10px] font-bold text-slate-400">
+                <span id="modal-ca-category" class="bg-indigo-500/10 text-indigo-400 px-2.5 py-0.5 rounded border border-indigo-500/20 uppercase tracking-wider">Category</span>
+                <span id="modal-ca-date">Date</span>
+            </div>
+            <h3 id="modal-ca-title" class="text-sm md:text-base font-extrabold text-white leading-snug">Article Title</h3>
+            <div id="modal-ca-content" class="text-xs text-slate-300 leading-relaxed space-y-2 border-t border-slate-900 pt-4 overflow-y-auto max-h-[300px] pr-1">
+                <!-- Content goes here -->
+            </div>
+            <div class="flex justify-end pt-3 border-t border-slate-900">
+                <a id="modal-ca-link" href="#" target="_blank" class="px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-lg text-[11px] font-bold flex items-center transition-colors shadow">
+                    <span data-translate="btn_visit_source">Read Original Source</span> <i class="fa-solid fa-arrow-up-right-from-square ml-1.5 text-[9px]"></i>
+                </a>
+            </div>
         </div>
     </div>
 </body>
