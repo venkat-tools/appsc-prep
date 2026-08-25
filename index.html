@@ -1968,6 +1968,28 @@
                     };
                     history.push(newAttempt);
                     setLocal('off_quiz_history', history);
+
+                    const explanations = {};
+                    const question_ids = body.question_ids || [];
+                    const allQs = typeof SEED_QUIZ_QUESTIONS !== 'undefined' ? SEED_QUIZ_QUESTIONS : [];
+                    const caQs = typeof SEED_CA_QUIZ !== 'undefined' ? SEED_CA_QUIZ : [];
+                    const combined = [...allQs, ...caQs];
+                    
+                    question_ids.forEach(qid => {
+                        const match = combined.find(q => q.id === qid);
+                        if (match) {
+                            explanations[qid] = {
+                                correct: match.correct_option,
+                                explanation: match.explanation
+                            };
+                        } else {
+                            explanations[qid] = {
+                                correct: "A",
+                                explanation: "Practice makes perfect."
+                            };
+                        }
+                    });
+                    responseData = { success: true, explanations: explanations };
                 }
                 else if (path === "/api/timetable/toggle") {
                     const timetable = getLocal('off_timetable');
