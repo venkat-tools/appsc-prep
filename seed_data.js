@@ -7,7 +7,7 @@ const SEED_SYLLABUS = [
     "paper": "Screening Test",
     "subject": "Indian History",
     "unit": "Ancient History",
-    "topic": "Indus Valley Civilization & Vedic Age",
+    "topic": "Indus Valley Civilization (\u0c38\u0c3f\u0c02\u0c27\u0c41 \u0c28\u0c3e\u0c17\u0c30\u0c3f\u0c15\u0c24)",
     "status": "todo",
     "notes": ""
   },
@@ -17,7 +17,7 @@ const SEED_SYLLABUS = [
     "paper": "Screening Test",
     "subject": "Indian History",
     "unit": "Ancient History",
-    "topic": "Buddhism and Jainism",
+    "topic": "Vedic Age & Aryan Culture (\u0c35\u0c48\u0c26\u0c3f\u0c15 \u0c2f\u0c41\u0c17\u0c02)",
     "status": "todo",
     "notes": ""
   },
@@ -27,7 +27,7 @@ const SEED_SYLLABUS = [
     "paper": "Screening Test",
     "subject": "Indian History",
     "unit": "Ancient History",
-    "topic": "Mauryan and Gupta Empires",
+    "topic": "Buddhism and Jainism (\u0c2c\u0c4c\u0c26\u0c4d\u0c27, \u0c1c\u0c48\u0c28 \u0c2e\u0c24\u0c3e\u0c32\u0c41)",
     "status": "todo",
     "notes": ""
   },
@@ -37,7 +37,27 @@ const SEED_SYLLABUS = [
     "paper": "Screening Test",
     "subject": "Indian History",
     "unit": "Ancient History",
-    "topic": "Harshavardhana and South Indian Dynasties (Pallavas, Chalukyas, Cholas)",
+    "topic": "Mauryan Empire & Ashoka's Dhamma (\u0c2e\u0c4c\u0c30\u0c4d\u0c2f \u0c38\u0c3e\u0c2e\u0c4d\u0c30\u0c3e\u0c1c\u0c4d\u0c2f\u0c02)",
+    "status": "todo",
+    "notes": ""
+  },
+  {
+    "group_type": "Group 2",
+    "stage": "Prelims",
+    "paper": "Screening Test",
+    "subject": "Indian History",
+    "unit": "Ancient History",
+    "topic": "Gupta Empire: Administration, Art & Literature (\u0c17\u0c41\u0c2a\u0c4d\u0c24\u0c41\u0c32 \u0c15\u0c3e\u0c32\u0c02)",
+    "status": "todo",
+    "notes": ""
+  },
+  {
+    "group_type": "Group 2",
+    "stage": "Prelims",
+    "paper": "Screening Test",
+    "subject": "Indian History",
+    "unit": "Ancient History",
+    "topic": "Harshavardhana & South Indian Dynasties (Pallavas, Chalukyas, Cholas)",
     "status": "todo",
     "notes": ""
   },
@@ -47,7 +67,7 @@ const SEED_SYLLABUS = [
     "paper": "Screening Test",
     "subject": "Indian History",
     "unit": "Medieval History",
-    "topic": "Delhi Sultanate & Mughal Empire",
+    "topic": "Delhi Sultanate: Administration & Culture (\u0c22\u0c3f\u0c32\u0c4d\u0c32\u0c40 \u0c38\u0c41\u0c32\u0c4d\u0c24\u0c3e\u0c28\u0c41\u0c32\u0c41)",
     "status": "todo",
     "notes": ""
   },
@@ -57,7 +77,7 @@ const SEED_SYLLABUS = [
     "paper": "Screening Test",
     "subject": "Indian History",
     "unit": "Medieval History",
-    "topic": "Bhakti and Sufi Movements",
+    "topic": "Mughal Empire: Art, Architecture & Economy (\u0c2e\u0c4a\u0c18\u0c32\u0c4d \u0c38\u0c3e\u0c2e\u0c4d\u0c30\u0c3e\u0c1c\u0c4d\u0c2f\u0c02)",
     "status": "todo",
     "notes": ""
   },
@@ -67,7 +87,17 @@ const SEED_SYLLABUS = [
     "paper": "Screening Test",
     "subject": "Indian History",
     "unit": "Medieval History",
-    "topic": "Vijayanagara Empire & Marathas",
+    "topic": "Bhakti and Sufi Movements (\u0c2d\u0c15\u0c4d\u0c24\u0c3f, \u0c38\u0c42\u0c2b\u0c40 \u0c09\u0c26\u0c4d\u0c2f\u0c2e\u0c3e\u0c32\u0c41)",
+    "status": "todo",
+    "notes": ""
+  },
+  {
+    "group_type": "Group 2",
+    "stage": "Prelims",
+    "paper": "Screening Test",
+    "subject": "Indian History",
+    "unit": "Medieval History",
+    "topic": "Vijayanagara Empire & Maratha Administration (\u0c35\u0c3f\u0c1c\u0c2f\u0c28\u0c17\u0c30 \u0c38\u0c3e\u0c2e\u0c4d\u0c30\u0c3e\u0c1c\u0c4d\u0c2f\u0c02)",
     "status": "todo",
     "notes": ""
   },
@@ -77,7 +107,7 @@ const SEED_SYLLABUS = [
     "paper": "Screening Test",
     "subject": "Indian History",
     "unit": "Modern History",
-    "topic": "1857 Revolt & Rise of British Power",
+    "topic": "1857 Revolt: Causes & Impact (1857 \u0c24\u0c3f\u0c30\u0c41\u0c17\u0c41\u0c2c\u0c3e\u0c1f\u0c41)",
     "status": "todo",
     "notes": ""
   },
@@ -87,7 +117,7 @@ const SEED_SYLLABUS = [
     "paper": "Screening Test",
     "subject": "Indian History",
     "unit": "Modern History",
-    "topic": "Socio-Religious Reform Movements in 19th & 20th Centuries",
+    "topic": "Rise of British Power & Consolidations (\u0c2c\u0c4d\u0c30\u0c3f\u0c1f\u0c3f\u0c37\u0c4d \u0c35\u0c3e\u0c30\u0c3f \u0c06\u0c27\u0c3f\u0c2a\u0c24\u0c4d\u0c2f\u0c02)",
     "status": "todo",
     "notes": ""
   },
@@ -97,7 +127,37 @@ const SEED_SYLLABUS = [
     "paper": "Screening Test",
     "subject": "Indian History",
     "unit": "Modern History",
-    "topic": "Indian National Movement: Early Phase, Gandhian Era & Key Leaders",
+    "topic": "Socio-Religious Reform Movements in 19th & 20th Centuries (\u0c38\u0c02\u0c38\u0c4d\u0c15\u0c30\u0c23 \u0c09\u0c26\u0c4d\u0c2f\u0c2e\u0c3e\u0c32\u0c41)",
+    "status": "todo",
+    "notes": ""
+  },
+  {
+    "group_type": "Group 2",
+    "stage": "Prelims",
+    "paper": "Screening Test",
+    "subject": "Indian History",
+    "unit": "Modern History",
+    "topic": "Indian National Movement: Early Phase (1885-1905)",
+    "status": "todo",
+    "notes": ""
+  },
+  {
+    "group_type": "Group 2",
+    "stage": "Prelims",
+    "paper": "Screening Test",
+    "subject": "Indian History",
+    "unit": "Modern History",
+    "topic": "Militant Nationalism & Swadeshi Movement (\u0c05\u0c24\u0c3f\u0c35\u0c3e\u0c26 \u0c2f\u0c41\u0c17\u0c02)",
+    "status": "todo",
+    "notes": ""
+  },
+  {
+    "group_type": "Group 2",
+    "stage": "Prelims",
+    "paper": "Screening Test",
+    "subject": "Indian History",
+    "unit": "Modern History",
+    "topic": "Gandhian Era & Non-Cooperation, Civil Disobedience, Quit India Movements",
     "status": "todo",
     "notes": ""
   },
@@ -147,7 +207,7 @@ const SEED_SYLLABUS = [
     "paper": "Screening Test",
     "subject": "Geography",
     "unit": "India & AP Physical Geography",
-    "topic": "Physiographic Features, Drainage & Soils",
+    "topic": "Physiographic Divisions of India (\u0c2d\u0c3e\u0c30\u0c24\u0c26\u0c47\u0c36 \u0c2d\u0c4c\u0c17\u0c4b\u0c33\u0c3f\u0c15 \u0c35\u0c3f\u0c2d\u0c3e\u0c17\u0c3e\u0c32\u0c41)",
     "status": "todo",
     "notes": ""
   },
@@ -157,7 +217,27 @@ const SEED_SYLLABUS = [
     "paper": "Screening Test",
     "subject": "Geography",
     "unit": "India & AP Physical Geography",
-    "topic": "Climate, Vegetation & Natural Disasters",
+    "topic": "Indian River Systems & Drainage (\u0c2d\u0c3e\u0c30\u0c24\u0c26\u0c47\u0c36 \u0c28\u0c26\u0c40 \u0c35\u0c4d\u0c2f\u0c35\u0c38\u0c4d\u0c25)",
+    "status": "todo",
+    "notes": ""
+  },
+  {
+    "group_type": "Group 2",
+    "stage": "Prelims",
+    "paper": "Screening Test",
+    "subject": "Geography",
+    "unit": "India & AP Physical Geography",
+    "topic": "Soil Types, Forest Cover & Vegetation of India & AP",
+    "status": "todo",
+    "notes": ""
+  },
+  {
+    "group_type": "Group 2",
+    "stage": "Prelims",
+    "paper": "Screening Test",
+    "subject": "Geography",
+    "unit": "India & AP Physical Geography",
+    "topic": "Climate & Natural Disasters in India & AP",
     "status": "todo",
     "notes": ""
   },
@@ -307,7 +387,27 @@ const SEED_SYLLABUS = [
     "paper": "Screening Test",
     "subject": "Mental Ability",
     "unit": "Mental Ability",
-    "topic": "Number & Alphabet Series, Coding-Decoding, Blood Relations",
+    "topic": "Number, Letter & Alphabet Series (\u0c38\u0c3f\u0c30\u0c40\u0c38\u0c4d)",
+    "status": "todo",
+    "notes": ""
+  },
+  {
+    "group_type": "Group 2",
+    "stage": "Prelims",
+    "paper": "Screening Test",
+    "subject": "Mental Ability",
+    "unit": "Mental Ability",
+    "topic": "Coding-Decoding & Analogy (\u0c15\u0c4b\u0c21\u0c3f\u0c02\u0c17\u0c4d-\u0c21\u0c40\u0c15\u0c4b\u0c21\u0c3f\u0c02\u0c17\u0c4d)",
+    "status": "todo",
+    "notes": ""
+  },
+  {
+    "group_type": "Group 2",
+    "stage": "Prelims",
+    "paper": "Screening Test",
+    "subject": "Mental Ability",
+    "unit": "Mental Ability",
+    "topic": "Blood Relations, Coding & Directions (\u0c30\u0c15\u0c4d\u0c24 \u0c38\u0c02\u0c2c\u0c02\u0c27\u0c3e\u0c32\u0c41)",
     "status": "todo",
     "notes": ""
   },
@@ -317,7 +417,37 @@ const SEED_SYLLABUS = [
     "paper": "Screening Test",
     "subject": "Mental Ability",
     "unit": "Basic Numeracy",
-    "topic": "Average, Percentage, Ratio, Simple/Compound Interest, Data Interpretation",
+    "topic": "Percentage, Profit & Loss, Averages (\u0c36\u0c3e\u0c24\u0c3e\u0c32\u0c41, \u0c32\u0c3e\u0c2d\u0c28\u0c37\u0c4d\u0c1f\u0c3e\u0c32\u0c41)",
+    "status": "todo",
+    "notes": ""
+  },
+  {
+    "group_type": "Group 2",
+    "stage": "Prelims",
+    "paper": "Screening Test",
+    "subject": "Mental Ability",
+    "unit": "Basic Numeracy",
+    "topic": "Ratio & Proportion, Partnership (\u0c28\u0c3f\u0c37\u0c4d\u0c2a\u0c24\u0c4d\u0c24\u0c41\u0c32\u0c41, \u0c2d\u0c3e\u0c17\u0c38\u0c4d\u0c35\u0c3e\u0c2e\u0c4d\u0c2f\u0c02)",
+    "status": "todo",
+    "notes": ""
+  },
+  {
+    "group_type": "Group 2",
+    "stage": "Prelims",
+    "paper": "Screening Test",
+    "subject": "Mental Ability",
+    "unit": "Basic Numeracy",
+    "topic": "Simple Interest & Compound Interest (\u0c35\u0c21\u0c4d\u0c21\u0c40\u0c32\u0c41)",
+    "status": "todo",
+    "notes": ""
+  },
+  {
+    "group_type": "Group 2",
+    "stage": "Prelims",
+    "paper": "Screening Test",
+    "subject": "Mental Ability",
+    "unit": "Basic Numeracy",
+    "topic": "Data Interpretation (Bar, Pie, Line Charts) (\u0c26\u0c24\u0c4d\u0c24\u0c3e\u0c02\u0c36 \u0c35\u0c3f\u0c36\u0c4d\u0c32\u0c47\u0c37\u0c23)",
     "status": "todo",
     "notes": ""
   },
@@ -377,7 +507,37 @@ const SEED_SYLLABUS = [
     "paper": "Paper I",
     "subject": "Indian Constitution",
     "unit": "Unit 1",
-    "topic": "Historical Background, Preamble, Fundamental Rights & DPSP",
+    "topic": "Historical Background & Framing of Constitution (\u0c30\u0c3e\u0c1c\u0c4d\u0c2f\u0c3e\u0c02\u0c17 \u0c28\u0c3f\u0c30\u0c4d\u0c2e\u0c3e\u0c23\u0c02)",
+    "status": "todo",
+    "notes": ""
+  },
+  {
+    "group_type": "Group 2",
+    "stage": "Mains",
+    "paper": "Paper I",
+    "subject": "Indian Constitution",
+    "unit": "Unit 1",
+    "topic": "Preamble & Union and its Territory (\u0c2a\u0c4d\u0c30\u0c35\u0c47\u0c36\u0c3f\u0c15)",
+    "status": "todo",
+    "notes": ""
+  },
+  {
+    "group_type": "Group 2",
+    "stage": "Mains",
+    "paper": "Paper I",
+    "subject": "Indian Constitution",
+    "unit": "Unit 1",
+    "topic": "Fundamental Rights (Articles 12-35) (\u0c2a\u0c4d\u0c30\u0c3e\u0c25\u0c2e\u0c3f\u0c15 \u0c39\u0c15\u0c4d\u0c15\u0c41\u0c32\u0c41)",
+    "status": "todo",
+    "notes": ""
+  },
+  {
+    "group_type": "Group 2",
+    "stage": "Mains",
+    "paper": "Paper I",
+    "subject": "Indian Constitution",
+    "unit": "Unit 1",
+    "topic": "Directive Principles of State Policy & Fundamental Duties (\u0c06\u0c26\u0c47\u0c36\u0c3f\u0c15 \u0c38\u0c42\u0c24\u0c4d\u0c30\u0c3e\u0c32\u0c41 & \u0c35\u0c3f\u0c27\u0c41\u0c32\u0c41)",
     "status": "todo",
     "notes": ""
   },
@@ -1720,6 +1880,59 @@ const SEED_PAPERS = [
     "download_url": "https://www.sakshieducation.com/appsc/previous-papers",
     "status": "todo",
     "score_logged": null
+  }
+];
+
+const SEED_CA_QUIZ = [
+  {
+    "id": 1,
+    "question": "\u0c06\u0c02\u0c27\u0c4d\u0c30\u0c2a\u0c4d\u0c30\u0c26\u0c47\u0c36\u0c4d \u0c2c\u0c21\u0c4d\u0c1c\u0c46\u0c1f\u0c4d 2026-27 \u0c32\u0c4b \u0c35\u0c4d\u0c2f\u0c35\u0c38\u0c3e\u0c2f \u0c30\u0c02\u0c17\u0c3e\u0c28\u0c3f\u0c15\u0c3f \u0c15\u0c47\u0c1f\u0c3e\u0c2f\u0c3f\u0c02\u0c1a\u0c3f\u0c28 \u0c28\u0c3f\u0c27\u0c41\u0c32\u0c41 \u0c0e\u0c02\u0c24?",
+    "option_a": "\u0c30\u0c42. 20,000 \u0c15\u0c4b\u0c1f\u0c4d\u0c32\u0c41",
+    "option_b": "\u0c30\u0c42. 25,000 \u0c15\u0c4b\u0c1f\u0c4d\u0c32\u0c41",
+    "option_c": "\u0c30\u0c42. 30,000 \u0c15\u0c4b\u0c1f\u0c4d\u0c32\u0c41",
+    "option_d": "\u0c30\u0c42. 35,000 \u0c15\u0c4b\u0c1f\u0c4d\u0c32\u0c41",
+    "correct_option": "B",
+    "explanation": "\u0c06\u0c02\u0c27\u0c4d\u0c30\u0c2a\u0c4d\u0c30\u0c26\u0c47\u0c36\u0c4d \u0c2c\u0c21\u0c4d\u0c1c\u0c46\u0c1f\u0c4d 2026-27 \u0c32\u0c4b \u0c35\u0c4d\u0c2f\u0c35\u0c38\u0c3e\u0c2f \u0c2e\u0c30\u0c3f\u0c2f\u0c41 \u0c26\u0c3e\u0c28\u0c3f \u0c05\u0c28\u0c41\u0c2c\u0c02\u0c27 \u0c30\u0c02\u0c17\u0c3e\u0c32\u0c15\u0c41 \u0c30\u0c42. 25,000 \u0c15\u0c4b\u0c1f\u0c4d\u0c32\u0c41 \u0c15\u0c47\u0c1f\u0c3e\u0c2f\u0c3f\u0c02\u0c1a\u0c3e\u0c30\u0c41."
+  },
+  {
+    "id": 2,
+    "question": "\u0c28\u0c3e\u0c32\u0c4d\u0c17\u0c35 \u0c1c\u0c3e\u0c24\u0c40\u0c2f \u0c38\u0c02\u0c15\u0c4d\u0c37\u0c47\u0c2e \u0c2a\u0c25\u0c15\u0c2e\u0c48\u0c28 '\u0c24\u0c32\u0c4d\u0c32\u0c3f\u0c15\u0c3f \u0c35\u0c02\u0c26\u0c28\u0c02' \u0c26\u0c4d\u0c35\u0c3e\u0c30\u0c3e \u0c05\u0c30\u0c4d\u0c39\u0c41\u0c32\u0c48\u0c28 \u0c24\u0c32\u0c4d\u0c32\u0c41\u0c32 \u0c16\u0c3e\u0c24\u0c3e\u0c32\u0c4d\u0c32\u0c4b \u0c1c\u0c2e \u0c1a\u0c47\u0c38\u0c47 \u0c35\u0c3e\u0c30\u0c4d\u0c37\u0c3f\u0c15 \u0c2e\u0c4a\u0c24\u0c4d\u0c24\u0c02 \u0c0e\u0c02\u0c24?",
+    "option_a": "\u0c30\u0c42. 10,000",
+    "option_b": "\u0c30\u0c42. 12,000",
+    "option_c": "\u0c30\u0c42. 15,000",
+    "option_d": "\u0c30\u0c42. 20,000",
+    "correct_option": "C",
+    "explanation": "\u0c24\u0c32\u0c4d\u0c32\u0c3f\u0c15\u0c3f \u0c35\u0c02\u0c26\u0c28\u0c02 \u0c2a\u0c25\u0c15\u0c02 \u0c26\u0c4d\u0c35\u0c3e\u0c30\u0c3e \u0c05\u0c30\u0c4d\u0c39\u0c41\u0c32\u0c48\u0c28 \u0c2a\u0c3e\u0c20\u0c36\u0c3e\u0c32 \u0c35\u0c3f\u0c26\u0c4d\u0c2f\u0c3e\u0c30\u0c4d\u0c25\u0c41\u0c32 \u0c24\u0c32\u0c4d\u0c32\u0c41\u0c32 \u0c16\u0c3e\u0c24\u0c3e\u0c32\u0c4d\u0c32\u0c4b \u0c38\u0c02\u0c35\u0c24\u0c4d\u0c38\u0c30\u0c3e\u0c28\u0c3f\u0c15\u0c3f \u0c30\u0c42. 15,000 \u0c1c\u0c2e \u0c1a\u0c47\u0c38\u0c4d\u0c24\u0c3e\u0c30\u0c41."
+  },
+  {
+    "id": 3,
+    "question": "\u0c07\u0c1f\u0c40\u0c35\u0c32 \u0c07\u0c38\u0c4d\u0c30\u0c4b (ISRO) \u0c17\u0c17\u0c28\u0c4d \u0c2f\u0c3e\u0c28\u0c4d \u0c2e\u0c3f\u0c37\u0c28\u0c4d \u0c32\u0c4b \u0c2d\u0c3e\u0c17\u0c02\u0c17\u0c3e \u0c35\u0c3f\u0c1c\u0c2f\u0c35\u0c02\u0c24\u0c02\u0c17\u0c3e \u0c2a\u0c42\u0c30\u0c4d\u0c24\u0c3f \u0c1a\u0c47\u0c38\u0c3f\u0c28 \u0c15\u0c40\u0c32\u0c15 \u0c2a\u0c4d\u0c30\u0c2f\u0c4b\u0c17\u0c02 \u0c0f\u0c26\u0c3f?",
+    "option_a": "\u0c15\u0c4d\u0c30\u0c42 \u0c2e\u0c4b\u0c21\u0c4d\u0c2f\u0c42\u0c32\u0c4d \u0c30\u0c3f\u0c15\u0c35\u0c30\u0c40 \u0c1f\u0c4d\u0c30\u0c2f\u0c32\u0c4d\u0c38\u0c4d",
+    "option_b": "\u0c32\u0c3f\u0c15\u0c4d\u0c35\u0c3f\u0c21\u0c4d \u0c2a\u0c4d\u0c30\u0c4a\u0c2a\u0c32\u0c4d\u0c37\u0c28\u0c4d \u0c1f\u0c46\u0c38\u0c4d\u0c1f\u0c4d",
+    "option_c": "\u0c32\u0c4d\u0c2f\u0c3e\u0c02\u0c21\u0c30\u0c4d \u0c21\u0c4d\u0c30\u0c3e\u0c2a\u0c4d \u0c1f\u0c46\u0c38\u0c4d\u0c1f\u0c4d",
+    "option_d": "\u0c15\u0c4d\u0c30\u0c42 \u0c0e\u0c38\u0c4d\u0c15\u0c47\u0c2a\u0c4d \u0c38\u0c3f\u0c38\u0c4d\u0c1f\u0c2e\u0c4d \u0c21\u0c46\u0c2e\u0c4b",
+    "correct_option": "A",
+    "explanation": "ISRO \u0c17\u0c17\u0c28\u0c4d \u0c2f\u0c3e\u0c28\u0c4d \u0c2e\u0c3f\u0c37\u0c28\u0c4d \u0c32\u0c4b \u0c2d\u0c3e\u0c17\u0c02\u0c17\u0c3e \u0c2e\u0c3e\u0c28\u0c35 \u0c30\u0c39\u0c3f\u0c24 \u0c05\u0c02\u0c24\u0c30\u0c3f\u0c15\u0c4d\u0c37 \u0c2f\u0c3e\u0c24\u0c4d\u0c30 \u0c15\u0c4a\u0c30\u0c15\u0c41 \u0c15\u0c4d\u0c30\u0c42 \u0c2e\u0c4b\u0c21\u0c4d\u0c2f\u0c42\u0c32\u0c4d \u0c30\u0c3f\u0c15\u0c35\u0c30\u0c40 \u0c1f\u0c4d\u0c30\u0c2f\u0c32\u0c4d\u0c38\u0c4d \u0c28\u0c41 \u0c35\u0c3f\u0c1c\u0c2f\u0c35\u0c02\u0c24\u0c02\u0c17\u0c3e \u0c2a\u0c42\u0c30\u0c4d\u0c24\u0c3f \u0c1a\u0c47\u0c38\u0c3f\u0c02\u0c26\u0c3f."
+  },
+  {
+    "id": 4,
+    "question": "\u0c15\u0c47\u0c02\u0c26\u0c4d\u0c30 \u0c15\u0c4d\u0c2f\u0c3e\u0c2c\u0c3f\u0c28\u0c46\u0c1f\u0c4d \u0c07\u0c1f\u0c40\u0c35\u0c32 \u0c06\u0c2e\u0c4b\u0c26\u0c3f\u0c02\u0c1a\u0c3f\u0c28 \u0c28\u0c42\u0c24\u0c28 \u0c1c\u0c3e\u0c24\u0c40\u0c2f \u0c2a\u0c3e\u0c30\u0c3f\u0c36\u0c4d\u0c30\u0c3e\u0c2e\u0c3f\u0c15 \u0c35\u0c3f\u0c27\u0c3e\u0c28\u0c02 \u0c2a\u0c4d\u0c30\u0c27\u0c3e\u0c28 \u0c32\u0c15\u0c4d\u0c37\u0c4d\u0c2f\u0c02 \u0c0f\u0c2e\u0c3f\u0c1f\u0c3f?",
+    "option_a": "\u0c38\u0c47\u0c35\u0c32 \u0c30\u0c02\u0c17\u0c02 \u0c21\u0c3f\u0c1c\u0c3f\u0c1f\u0c32\u0c48\u0c1c\u0c47\u0c37\u0c28\u0c4d",
+    "option_b": "\u0c24\u0c2f\u0c3e\u0c30\u0c40 \u0c30\u0c02\u0c17\u0c3e\u0c28\u0c4d\u0c28\u0c3f \u0c2c\u0c32\u0c4b\u0c2a\u0c47\u0c24\u0c02 \u0c1a\u0c47\u0c2f\u0c21\u0c02 & \u0c0e\u0c17\u0c41\u0c2e\u0c24\u0c41\u0c32\u0c41 \u0c2a\u0c46\u0c02\u0c1a\u0c21\u0c02",
+    "option_c": "\u0c35\u0c4d\u0c2f\u0c35\u0c38\u0c3e\u0c2f \u0c30\u0c41\u0c23\u0c3e\u0c32 \u0c30\u0c26\u0c4d\u0c26\u0c41",
+    "option_d": "\u0c38\u0c4d\u0c1f\u0c3e\u0c30\u0c4d\u0c1f\u0c2a\u0c4d \u0c15\u0c02\u0c2a\u0c46\u0c28\u0c40\u0c32 \u0c2a\u0c28\u0c4d\u0c28\u0c41\u0c32 \u0c2e\u0c3f\u0c28\u0c39\u0c3e\u0c2f\u0c3f\u0c02\u0c2a\u0c41",
+    "correct_option": "B",
+    "explanation": "\u0c26\u0c47\u0c36\u0c02\u0c32\u0c4b \u0c24\u0c2f\u0c3e\u0c30\u0c40 (Manufacturing) \u0c30\u0c02\u0c17\u0c3e\u0c28\u0c4d\u0c28\u0c3f \u0c2c\u0c32\u0c4b\u0c2a\u0c47\u0c24\u0c02 \u0c1a\u0c47\u0c38\u0c3f \u0c0e\u0c17\u0c41\u0c2e\u0c24\u0c41\u0c32\u0c28\u0c41 \u0c2a\u0c4d\u0c30\u0c4b\u0c24\u0c4d\u0c38\u0c39\u0c3f\u0c02\u0c1a\u0c21\u0c3e\u0c28\u0c3f\u0c15\u0c3f \u0c28\u0c42\u0c24\u0c28 \u0c2a\u0c3e\u0c30\u0c3f\u0c36\u0c4d\u0c30\u0c3e\u0c2e\u0c3f\u0c15 \u0c35\u0c3f\u0c27\u0c3e\u0c28\u0c3e\u0c28\u0c3f\u0c15\u0c3f \u0c15\u0c4d\u0c2f\u0c3e\u0c2c\u0c3f\u0c28\u0c46\u0c1f\u0c4d \u0c06\u0c2e\u0c4b\u0c26\u0c02 \u0c24\u0c46\u0c32\u0c3f\u0c2a\u0c3f\u0c02\u0c26\u0c3f."
+  },
+  {
+    "id": 5,
+    "question": "\u0c06\u0c02\u0c27\u0c4d\u0c30\u0c2a\u0c4d\u0c30\u0c26\u0c47\u0c36\u0c4d \u0c2a\u0c41\u0c28\u0c30\u0c4d\u0c35\u0c4d\u0c2f\u0c35\u0c38\u0c4d\u0c25\u0c40\u0c15\u0c30\u0c23 \u0c1a\u0c1f\u0c4d\u0c1f\u0c02-2014 \u0c32\u0c4b\u0c28\u0c3f \u0c0f \u0c37\u0c46\u0c21\u0c4d\u0c2f\u0c42\u0c32\u0c4d \u0c24\u0c4a\u0c2e\u0c4d\u0c2e\u0c3f\u0c26\u0c35 \u0c2e\u0c30\u0c3f\u0c2f\u0c41 \u0c2a\u0c26\u0c35 \u0c37\u0c46\u0c21\u0c4d\u0c2f\u0c42\u0c32\u0c4d \u0c38\u0c02\u0c38\u0c4d\u0c25\u0c32 \u0c35\u0c3f\u0c2d\u0c1c\u0c28\u0c15\u0c41 \u0c38\u0c02\u0c2c\u0c02\u0c27\u0c3f\u0c02\u0c1a\u0c3f\u0c02\u0c26\u0c3f?",
+    "option_a": "\u0c37\u0c46\u0c21\u0c4d\u0c2f\u0c42\u0c32\u0c4d VII & VIII",
+    "option_b": "\u0c37\u0c46\u0c21\u0c4d\u0c2f\u0c42\u0c32\u0c4d IX & X",
+    "option_c": "\u0c37\u0c46\u0c21\u0c4d\u0c2f\u0c42\u0c32\u0c4d XI & XII",
+    "option_d": "\u0c37\u0c46\u0c21\u0c4d\u0c2f\u0c42\u0c32\u0c4d XII & XIV",
+    "correct_option": "B",
+    "explanation": "\u0c06\u0c02\u0c27\u0c4d\u0c30\u0c2a\u0c4d\u0c30\u0c26\u0c47\u0c36\u0c4d \u0c2a\u0c41\u0c28\u0c30\u0c4d\u0c35\u0c4d\u0c2f\u0c35\u0c38\u0c4d\u0c25\u0c40\u0c15\u0c30\u0c23 \u0c1a\u0c1f\u0c4d\u0c1f\u0c02-2014 \u0c32\u0c4b\u0c28\u0c3f \u0c37\u0c46\u0c21\u0c4d\u0c2f\u0c42\u0c32\u0c4d IX \u0c2a\u0c4d\u0c30\u0c2d\u0c41\u0c24\u0c4d\u0c35 \u0c30\u0c02\u0c17 \u0c38\u0c02\u0c38\u0c4d\u0c25\u0c32 \u0c35\u0c3f\u0c2d\u0c1c\u0c28\u0c28\u0c41 \u0c2e\u0c30\u0c3f\u0c2f\u0c41 \u0c37\u0c46\u0c21\u0c4d\u0c2f\u0c42\u0c32\u0c4d X \u0c36\u0c3f\u0c15\u0c4d\u0c37\u0c23\u0c3e \u0c38\u0c02\u0c38\u0c4d\u0c25\u0c32 \u0c35\u0c3f\u0c2d\u0c1c\u0c28\u0c28\u0c41 \u0c24\u0c46\u0c32\u0c3f\u0c2f\u0c1c\u0c47\u0c38\u0c4d\u0c24\u0c41\u0c02\u0c26\u0c3f."
   }
 ];
 
