@@ -725,10 +725,12 @@
                             <i class="fa-solid fa-map-location-dot text-emerald-400 mr-2 text-lg"></i>
                             <span data-translate="geo_map_center_title">AP Geography Map Pointing Center (మ్యాప్ పాయింటింగ్)</span>
                         </h3>
-                        <div class="inline-flex rounded-lg border border-slate-800 p-0.5 bg-slate-900 text-xs">
-                            <button onclick="switchGeoMap('rivers')" id="btn-map-rivers" class="px-3.5 py-1.5 rounded-md font-semibold bg-brand-600 text-white">Rivers & Projects</button>
-                            <button onclick="switchGeoMap('physical')" id="btn-map-physical" class="px-3.5 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">Hills & Peaks</button>
-                            <button onclick="switchGeoMap('coast')" id="btn-map-coast" class="px-3.5 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">Ports & Lakes</button>
+                        <div class="inline-flex rounded-lg border border-slate-800 p-0.5 bg-slate-900 text-xs flex-wrap gap-1">
+                            <button onclick="switchGeoMap('rivers')" id="btn-map-rivers" class="px-3 py-1.5 rounded-md font-semibold bg-brand-600 text-white">AP Rivers</button>
+                            <button onclick="switchGeoMap('physical')" id="btn-map-physical" class="px-3 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">AP Hills</button>
+                            <button onclick="switchGeoMap('coast')" id="btn-map-coast" class="px-3 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">AP Coast</button>
+                            <button onclick="switchGeoMap('india')" id="btn-map-india" class="px-3 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">India Physical</button>
+                            <button onclick="switchGeoMap('world')" id="btn-map-world" class="px-3 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">World Geo</button>
                         </div>
                     </div>
                     
@@ -4532,6 +4534,60 @@
                     details: "Deepwater private port in Nellore district, with modern automated cargo handling infrastructure.",
                     importance: "Acts as a major industrial corridor node under the Vizag-Chennai Industrial Corridor (VCIC)."
                 }
+            ],
+            india: [
+                {
+                    name: "Himalayas (హిమాలయాలు)",
+                    details: "Young fold mountain range forming the northern boundary of India. Contains the world's highest peaks.",
+                    importance: "Acts as a climatic barrier, preventing cold Siberian winds and intercepting summer monsoons."
+                },
+                {
+                    name: "Ganga River Basin (గంగా నది ఆవాస ప్రాంతం)",
+                    details: "Largest river basin in India. Originates as Bhagirathi from Gangotri Glacier. Flowing through UK, UP, Bihar, and WB.",
+                    importance: "Nourishes the highly fertile Indo-Gangetic Plains, supporting over 40% of India's population."
+                },
+                {
+                    name: "Western Ghats (పశ్చిమ కనుమలు / సహ్యాద్రి)",
+                    details: "Continuous mountain range running parallel to the western coast of India. UNESCO World Heritage Site.",
+                    importance: "One of the world's 36 biodiversity hotspots. Highest peak is Anamudi (~2,695m) in Kerala."
+                },
+                {
+                    name: "Deccan Plateau (దక్కన్ పీఠభూమి)",
+                    details: "Large volcanic basalt plateau in southern India, bounded by the Western and Eastern Ghats.",
+                    importance: "Rich in minerals (coal, iron ore) and fertile black soil (regur) ideal for cotton cultivation."
+                },
+                {
+                    name: "Thar Desert (థార్ ఎడారి / మహా భారత ఎడారి)",
+                    details: "Arid region in northwestern India (mostly Rajasthan) and Pakistan, forming a natural boundary.",
+                    importance: "World's most densely populated desert; rich in wind and solar power potential."
+                }
+            ],
+            world: [
+                {
+                    name: "Andes Mountains (ఆండీస్ పర్వతాలు)",
+                    details: "The longest continental mountain range in the world, running along the western coast of South America.",
+                    importance: "Contains the highest active volcanoes. Home to Aconcagua, the highest peak outside Asia."
+                },
+                {
+                    name: "Sahara Desert (సహారా ఎడారి)",
+                    details: "The largest hot desert in the world, covering most of Northern Africa (~9 million sq km).",
+                    importance: "Influences global weather patterns, transferring mineral dust across the Atlantic Ocean."
+                },
+                {
+                    name: "Rocky Mountains (రాకీ పర్వతాలు)",
+                    details: "Major mountain range in western North America, stretching over 4,800 km from Canada to New Mexico.",
+                    importance: "Divides the continent's watersheds (Continental Divide). Key mineral and water resource zone."
+                },
+                {
+                    name: "Himalayas & Tibetan Plateau (టిబెట్ పీఠభూమి)",
+                    details: "Tibetan Plateau is the 'Roof of the World'. Mount Everest (~8,848.86m) is the highest peak.",
+                    importance: "Source of major Asian rivers (Indus, Ganga, Yangtze, Mekong, Yellow River)."
+                },
+                {
+                    name: "Gobi Desert (గోబీ ఎడారి)",
+                    details: "A large, cold rain-shadow desert in East Asia, spanning northern China and southern Mongolia.",
+                    importance: "Historic trade route (Silk Road) node. Known for rapid desertification and dust storm hazards."
+                }
             ]
         };
 
@@ -4540,16 +4596,20 @@
             const guideContainer = document.getElementById('geo-map-guide-container');
             if (!mapImg || !guideContainer) return;
 
-            mapImg.src = `images/ap_${mapType}_map.jpg`;
-            mapImg.alt = `AP ${mapType} Map`;
+            if (mapType === 'india' || mapType === 'world') {
+                mapImg.src = `images/${mapType}_geo_map.jpg`;
+            } else {
+                mapImg.src = `images/ap_${mapType}_map.jpg`;
+            }
+            mapImg.alt = `${mapType} Map`;
 
-            ['rivers', 'physical', 'coast'].forEach(t => {
+            ['rivers', 'physical', 'coast', 'india', 'world'].forEach(t => {
                 const btn = document.getElementById(`btn-map-${t}`);
                 if (btn) {
                     if (t === mapType) {
-                        btn.className = "px-3.5 py-1.5 rounded-md font-semibold bg-brand-600 text-white";
+                        btn.className = "px-3 py-1.5 rounded-md font-semibold bg-brand-600 text-white";
                     } else {
-                        btn.className = "px-3.5 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white";
+                        btn.className = "px-3 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white";
                     }
                 }
             });
