@@ -1724,7 +1724,7 @@
     </main>
 
     <!-- Seed Data for Standalone/Offline Fallback -->
-    <script src="seed_data.js?v=20260826_01"></script>
+    <script src="seed_data.js?v=20260826_02"></script>
 
     <!-- Global Javascript UI Logic -->
     <script>
@@ -1820,7 +1820,7 @@
             if (videos.length === 0 && typeof SEED_VIDEOS !== 'undefined') {
                 setLocal('off_videos', SEED_VIDEOS);
                 videos = SEED_VIDEOS;
-            } else if (videos.some(v => v.video_url && v.video_url.includes('strategy1')) && typeof SEED_VIDEOS !== 'undefined') {
+            } else if (videos.some(v => v.video_url && (v.video_url.includes('strategy1') || v.video_url.includes('48M1-2E92aQ'))) && typeof SEED_VIDEOS !== 'undefined') {
                 setLocal('off_videos', SEED_VIDEOS);
                 videos = SEED_VIDEOS;
             }

@@ -1323,37 +1323,37 @@ const SEED_VIDEOS = [
   {
     "title": "APPSC Group 2 Strategy & Books list",
     "channel_name": "Sakshi Education",
-    "video_url": "https://www.youtube.com/watch?v=48M1-2E92aQ",
+    "video_url": "https://www.youtube.com/watch?v=WTNFWDTB0kI",
     "category": "General Studies"
   },
   {
     "title": "Indian Economy Core Concepts Revision",
     "channel_name": "Eenadu Pratibha",
-    "video_url": "https://www.youtube.com/watch?v=DPH41tV_vP0",
+    "video_url": "https://www.youtube.com/watch?v=dC1bknMuUKI",
     "category": "Economy"
   },
   {
     "title": "Andhra Pradesh Reorganisation Act",
     "channel_name": "Winner Buzz",
-    "video_url": "https://www.youtube.com/watch?v=Nn1D6-98X4o",
+    "video_url": "https://www.youtube.com/watch?v=kYvM6Xz8bC0",
     "category": "AP History"
   },
   {
     "title": "Polity Fundamental Rights Class",
     "channel_name": "APPSC Academy",
-    "video_url": "https://www.youtube.com/watch?v=aG66z3N5wX4",
+    "video_url": "https://www.youtube.com/watch?v=78-rS6Bf-6A",
     "category": "Polity"
   },
   {
     "title": "Science & Technology Current Updates",
     "channel_name": "Tech Telugu",
-    "video_url": "https://www.youtube.com/watch?v=P_V5q13_d9Q",
+    "video_url": "https://www.youtube.com/watch?v=wX-rK5qK-mI",
     "category": "Science & Tech"
   },
   {
     "title": "Mental Ability Shortcuts & Tricks",
     "channel_name": "Maths Easy",
-    "video_url": "https://www.youtube.com/watch?v=t5JvD90vDno",
+    "video_url": "https://www.youtube.com/watch?v=sU9Cq8xXmGg",
     "category": "Mental Ability"
   }
 ];
