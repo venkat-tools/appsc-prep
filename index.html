@@ -806,7 +806,13 @@
 <button onclick="filterSyllabusStage('Mains')" id="btn-mains" class="px-3.5 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white">Mains</button>
                         </div>
                     </div>
-                    <span class="text-xs text-slate-400"><i class="fa-solid fa-info-circle mr-1"></i> <span data-translate="syllabus_info">Changes are saved automatically.</span></span>
+                    <div class="flex items-center space-x-3">
+                        <span class="text-xs text-slate-400"><i class="fa-solid fa-info-circle mr-1"></i> <span data-translate="syllabus_info">Changes are saved automatically.</span></span>
+                        <button onclick="resetSyllabusToOfficial()" class="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-850 text-slate-300 border border-slate-800 rounded-lg text-xs font-semibold flex items-center transition-colors cursor-pointer">
+                            <i class="fa-solid fa-arrows-rotate mr-1.5 text-indigo-400"></i> 
+                            <span id="txt-sync-syllabus">Sync Syllabus</span>
+                        </button>
+                    </div>
                 </div>
                 <div id="syllabus-summary-container" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
                 <div id="syllabus-accordion" class="space-y-4"></div>
@@ -1564,6 +1570,16 @@
 
         const API_URL = "";
 
+        const getLocal = (key, defaultVal = []) => {
+            const val = localStorage.getItem(key);
+            if (val === null) {
+                localStorage.setItem(key, JSON.stringify(defaultVal));
+                return defaultVal;
+            }
+            try { return JSON.parse(val); } catch(err) { return defaultVal; }
+        };
+        const setLocal = (key, val) => localStorage.setItem(key, JSON.stringify(val));
+
         function updateOfflineBadge() {
             const statusBadge = document.getElementById('status-indicator');
             if (statusBadge) {
@@ -1575,62 +1591,93 @@
         // Intercept native fetch for offline mode
         const originalFetch = window.fetch;
         const initSeeds = () => {
-                 let syllabus = [];
-                 try { syllabus = JSON.parse(localStorage.getItem('off_syllabus') || '[]'); } catch(e) {}
-                 if ((!syllabus || syllabus.length === 0) && typeof SEED_SYLLABUS !== 'undefined') {
-                     setLocal('off_syllabus', SEED_SYLLABUS);
-                 } else if (syllabus && typeof SEED_SYLLABUS !== 'undefined' && syllabus.length < SEED_SYLLABUS.length) {
-                     // Migrate/merge old syllabus to keep checked progress but add new topics
-                     const statusMap = {};
-                     const notesMap = {};
-                     syllabus.forEach(item => {
-                         const key = `${item.group_type}-${item.stage}-${item.paper}-${item.subject}-${item.unit}-${item.topic}`;
-                         statusMap[key] = item.status;
-                         notesMap[key] = item.notes;
-                     });
-                     
-                     const mergedSyllabus = SEED_SYLLABUS.map((item, index) => {
-                         const key = `${item.group_type}-${item.stage}-${item.paper}-${item.subject}-${item.unit}-${item.topic}`;
-                         return {
-                             id: index + 1,
-                             group_type: item.group_type,
-                             stage: item.stage,
-                             paper: item.paper,
-                             subject: item.subject,
-                             unit: item.unit,
-                             topic: item.topic,
-                             status: statusMap[key] || item.status || 'todo',
-                             notes: notesMap[key] || item.notes || ''
-                         };
-                     });
-                     setLocal('off_syllabus', mergedSyllabus);
-                 }
-                 
-                 let timetable = [];
-                 try { timetable = JSON.parse(localStorage.getItem('off_timetable') || '[]'); } catch(e) {}
-                 if ((!timetable || timetable.length === 0) && typeof SEED_TIMETABLE !== 'undefined') {
-                     setLocal('off_timetable', SEED_TIMETABLE);
-                 }
-                 
-                 let flashcards = [];
-                 try { flashcards = JSON.parse(localStorage.getItem('off_flashcards') || '[]'); } catch(e) {}
-                 if ((!flashcards || flashcards.length === 0) && typeof SEED_FLASHCARDS !== 'undefined') {
-                     setLocal('off_flashcards', SEED_FLASHCARDS);
-                 }
-                 
-                 let videos = [];
-                 try { videos = JSON.parse(localStorage.getItem('off_videos') || '[]'); } catch(e) {}
-                 if ((!videos || videos.length === 0) && typeof SEED_VIDEOS !== 'undefined') {
-                     setLocal('off_videos', SEED_VIDEOS);
-                 }
-                 
-                 let papers = [];
-                 try { papers = JSON.parse(localStorage.getItem('off_papers') || '[]'); } catch(e) {}
-                 if ((!papers || papers.length === 0) && typeof SEED_PAPERS !== 'undefined') {
-                     setLocal('off_papers', SEED_PAPERS);
-                 }
-             };
-             initSeeds();
+            let syllabus = [];
+            try {
+                const parsed = JSON.parse(localStorage.getItem('off_syllabus'));
+                if (Array.isArray(parsed)) syllabus = parsed;
+            } catch(e) {}
+            
+            if (syllabus.length === 0 && typeof SEED_SYLLABUS !== 'undefined') {
+                setLocal('off_syllabus', SEED_SYLLABUS);
+            } else if (syllabus.length > 0 && typeof SEED_SYLLABUS !== 'undefined' && syllabus.length < SEED_SYLLABUS.length) {
+                // Migrate/merge old syllabus to keep checked progress but add new topics
+                const statusMap = {};
+                const notesMap = {};
+                syllabus.forEach(item => {
+                    if (item) {
+                        const key = `${item.group_type || ''}-${item.stage || ''}-${item.paper || ''}-${item.subject || ''}-${item.unit || ''}-${item.topic || ''}`;
+                        statusMap[key] = item.status;
+                        notesMap[key] = item.notes;
+                    }
+                });
+                
+                const mergedSyllabus = SEED_SYLLABUS.map((item, index) => {
+                    const key = `${item.group_type || ''}-${item.stage || ''}-${item.paper || ''}-${item.subject || ''}-${item.unit || ''}-${item.topic || ''}`;
+                    return {
+                        id: index + 1,
+                        group_type: item.group_type,
+                        stage: item.stage,
+                        paper: item.paper,
+                        subject: item.subject,
+                        unit: item.unit,
+                        topic: item.topic,
+                        status: statusMap[key] || item.status || 'todo',
+                        notes: notesMap[key] || item.notes || ''
+                    };
+                });
+                setLocal('off_syllabus', mergedSyllabus);
+            }
+            
+            let timetable = [];
+            try {
+                const parsed = JSON.parse(localStorage.getItem('off_timetable'));
+                if (Array.isArray(parsed)) timetable = parsed;
+            } catch(e) {}
+            if (timetable.length === 0 && typeof SEED_TIMETABLE !== 'undefined') {
+                setLocal('off_timetable', SEED_TIMETABLE);
+            }
+            
+            let flashcards = [];
+            try {
+                const parsed = JSON.parse(localStorage.getItem('off_flashcards'));
+                if (Array.isArray(parsed)) flashcards = parsed;
+            } catch(e) {}
+            if (flashcards.length === 0 && typeof SEED_FLASHCARDS !== 'undefined') {
+                setLocal('off_flashcards', SEED_FLASHCARDS);
+            }
+            
+            let videos = [];
+            try {
+                const parsed = JSON.parse(localStorage.getItem('off_videos'));
+                if (Array.isArray(parsed)) videos = parsed;
+            } catch(e) {}
+            if (videos.length === 0 && typeof SEED_VIDEOS !== 'undefined') {
+                setLocal('off_videos', SEED_VIDEOS);
+            }
+            
+            let papers = [];
+            try {
+                const parsed = JSON.parse(localStorage.getItem('off_papers'));
+                if (Array.isArray(parsed)) papers = parsed;
+            } catch(e) {}
+            if (papers.length === 0 && typeof SEED_PAPERS !== 'undefined') {
+                setLocal('off_papers', SEED_PAPERS);
+            }
+
+            let currentAffairs = [];
+            try {
+                const parsed = JSON.parse(localStorage.getItem('off_current_affairs'));
+                if (Array.isArray(parsed)) currentAffairs = parsed;
+            } catch(e) {}
+            if (currentAffairs.length === 0 && typeof SEED_CURRENT_AFFAIRS !== 'undefined') {
+                setLocal('off_current_affairs', SEED_CURRENT_AFFAIRS);
+            } else if (currentAffairs.length > 0 && typeof SEED_CURRENT_AFFAIRS !== 'undefined') {
+                const userItems = currentAffairs.filter(item => item && item.id > 5);
+                const merged = [...SEED_CURRENT_AFFAIRS, ...userItems];
+                setLocal('off_current_affairs', merged);
+            }
+        };
+        initSeeds();
 
         window.fetch = async function(url, options) {
             const urlStr = url.toString();
@@ -1661,33 +1708,7 @@
 
             console.log(`[Offline Mode] Intercepted ${options?.method || 'GET'} request to: ${path}`);
             
-            const getLocal = (key, defaultVal = []) => {
-                const val = localStorage.getItem(key);
-                if (val === null) {
-                    localStorage.setItem(key, JSON.stringify(defaultVal));
-                    return defaultVal;
-                }
-                try { return JSON.parse(val); } catch(err) { return defaultVal; }
-            };
-            const setLocal = (key, val) => localStorage.setItem(key, JSON.stringify(val));
-
-            const initSeeds = () => {
-                if (!localStorage.getItem('off_syllabus') && typeof SEED_SYLLABUS !== 'undefined') {
-                    setLocal('off_syllabus', SEED_SYLLABUS);
-                }
-                if (!localStorage.getItem('off_timetable') && typeof SEED_TIMETABLE !== 'undefined') {
-                    setLocal('off_timetable', SEED_TIMETABLE);
-                }
-                if (!localStorage.getItem('off_flashcards') && typeof SEED_FLASHCARDS !== 'undefined') {
-                    setLocal('off_flashcards', SEED_FLASHCARDS);
-                }
-                if (!localStorage.getItem('off_videos') && typeof SEED_VIDEOS !== 'undefined') {
-                    setLocal('off_videos', SEED_VIDEOS);
-                }
-                if (!localStorage.getItem('off_papers') && typeof SEED_PAPERS !== 'undefined') {
-                    setLocal('off_papers', SEED_PAPERS);
-                }
-            };
+            // Using global getLocal and setLocal helpers and global initSeeds
             initSeeds();
 
             let method = options?.method ? options.method.toUpperCase() : "GET";
@@ -3626,6 +3647,10 @@
             const container = document.getElementById('syllabus-accordion');
             if (!container) return;
             container.innerHTML = '';
+            const syncBtn = document.getElementById('txt-sync-syllabus');
+            if (syncBtn) {
+                syncBtn.innerText = globalLang === 'te' ? 'సిలబస్ సింక్ చేయి' : 'Sync Syllabus';
+            }
             
             const filtered = syllabusData.filter(item => item.group_type === filterGroup && item.stage === filterStage);
             
@@ -3875,6 +3900,46 @@
             document.getElementById('btn-prelims').className = stage === 'Prelims' ? "px-3.5 py-1.5 rounded-md text-xs font-semibold bg-brand-600 text-white" : "px-3.5 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white bg-slate-900";
             document.getElementById('btn-mains').className = stage === 'Mains' ? "px-3.5 py-1.5 rounded-md text-xs font-semibold bg-brand-600 text-white" : "px-3.5 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white bg-slate-900";
             renderSyllabusAccordion();
+        }
+
+        function resetSyllabusToOfficial() {
+            if (confirm(globalLang === 'te' ? "మీరు సేవ్ చేసిన నోట్స్ మరియు ప్రోగ్రెస్ పోకుండా, కొత్త సిలబస్ టాపిక్స్‌ను సింక్ చేయాలనుకుంటున్నారా?" : "Do you want to sync the new syllabus topics? Your existing progress and study notes will be preserved.")) {
+                if (typeof SEED_SYLLABUS !== 'undefined') {
+                    const syllabus = getLocal('off_syllabus') || [];
+                    const statusMap = {};
+                    const notesMap = {};
+                    syllabus.forEach(item => {
+                        if (item) {
+                            const key = `${item.group_type || ''}-${item.stage || ''}-${item.paper || ''}-${item.subject || ''}-${item.unit || ''}-${item.topic || ''}`;
+                            statusMap[key] = item.status;
+                            notesMap[key] = item.notes;
+                        }
+                    });
+                    
+                    const mergedSyllabus = SEED_SYLLABUS.map((item, index) => {
+                        const key = `${item.group_type || ''}-${item.stage || ''}-${item.paper || ''}-${item.subject || ''}-${item.unit || ''}-${item.topic || ''}`;
+                        return {
+                            id: index + 1,
+                            group_type: item.group_type,
+                            stage: item.stage,
+                            paper: item.paper,
+                            subject: item.subject,
+                            unit: item.unit,
+                            topic: item.topic,
+                            status: statusMap[key] || item.status || 'todo',
+                            notes: notesMap[key] || item.notes || ''
+                        };
+                    });
+                    
+                    localStorage.setItem('off_syllabus', JSON.stringify(mergedSyllabus));
+                    syllabusData = mergedSyllabus;
+                    filterStatus = 'all';
+                    renderSyllabusAccordion();
+                    alert(globalLang === 'te' ? "సిలబస్ విజయవంతంగా సింక్ చేయబడింది!" : "Syllabus successfully synced!");
+                } else {
+                    alert("Official syllabus seeds not found. Please reload the page.");
+                }
+            }
         }
 
         function toggleTimerLabel() {
