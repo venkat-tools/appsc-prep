@@ -344,11 +344,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3 text-[11px]" id="subject-progress-container">
                             <!-- Dynamic subject bars will be injected here -->
                         </div>
-                    </div>
-                </div>
-
-                <!-- Charts Section -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                     <!-- Daily Study Hours Chart -->
                     <div class="lg:col-span-2 bg-slate-950 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-sm h-96">
                         <div class="flex items-center justify-between mb-4 flex-shrink-0">
@@ -371,7 +367,17 @@
                             <p class="text-xs text-slate-400" data-translate="dist_chart_sub">Study hours split across subjects</p>
                         </div>
                         <div class="flex-1 min-h-0 relative flex items-center justify-center">
-                            <canvas id="studyBreakdownChart" class="max-h-[220px] max-w-[220px]"></canvas>
+                            <canvas id="studyBreakdownChart" class="max-h-[200px] max-w-[200px]"></canvas>
+                        </div>
+                    </div>
+                    <!-- Syllabus Coverage Doughnut Chart -->
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-sm h-96">
+                        <div class="mb-2 flex-shrink-0">
+                            <h3 class="font-bold text-slate-200">Syllabus Coverage</h3>
+                            <p class="text-xs text-slate-400">Micro-topics completion status</p>
+                        </div>
+                        <div class="flex-1 min-h-0 relative flex items-center justify-center">
+                            <canvas id="syllabusCoverageChart" class="max-h-[200px] max-w-[200px]"></canvas>
                         </div>
                     </div>
                 </div>
@@ -496,6 +502,44 @@
                                 <span class="text-xs text-emerald-400 font-medium">January 24, 2027</span>
                             </div>
                             <span class="text-xs px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20" id="mains-countdown">- days</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Row: Daily Study Targets & Recent Quiz History -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Daily Study Targets -->
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-sm h-80">
+                        <div class="flex-shrink-0 flex items-center justify-between mb-3">
+                            <div>
+                                <h3 class="font-bold text-slate-200 flex items-center">
+                                    <i class="fa-solid fa-square-check text-indigo-400 mr-2"></i>
+                                    <span>Today's Study Targets (ఇవాల్టి లక్ష్యాలు)</span>
+                                </h3>
+                                <p class="text-xs text-slate-400">Track key syllabus topics you want to finish today</p>
+                            </div>
+                            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400" id="daily-targets-stats">0/0</span>
+                        </div>
+                        <div class="flex-shrink-0 flex space-x-2 mb-3">
+                            <input type="text" id="daily-target-input" class="flex-1 bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-brand-500" placeholder="e.g. Ancient History - Indus Valley...">
+                            <button onclick="addDailyTarget()" class="bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-4 text-xs font-bold transition-all cursor-pointer"><i class="fa-solid fa-plus mr-1"></i> Add</button>
+                        </div>
+                        <div class="flex-1 overflow-y-auto space-y-2 pr-1" id="daily-targets-list">
+                            <div class="text-center text-slate-500 py-6 text-xs">No study targets set for today. Add one above!</div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Quiz History -->
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-sm h-80">
+                        <div class="flex-shrink-0 mb-3">
+                            <h3 class="font-bold text-slate-200 flex items-center">
+                                <i class="fa-solid fa-chart-line text-emerald-400 mr-2"></i>
+                                <span>Recent Quiz Scoreboard (క్విజ్ రిపోర్ట్ కార్డ్)</span>
+                            </h3>
+                            <p class="text-xs text-slate-400">Track your last 5 quiz performances and scores</p>
+                        </div>
+                        <div class="flex-1 overflow-y-auto pr-1" id="recent-quizzes-container">
+                            <div class="text-center text-slate-500 py-10 text-xs">No quiz attempts logged yet. Go to Practice Quiz tab!</div>
                         </div>
                     </div>
                 </div>
@@ -795,19 +839,28 @@
             <!-- ==================== SYLLABUS TAB ==================== -->
             <section id="tab-syllabus" class="space-y-6 hidden">
                 <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 flex flex-wrap gap-4 items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                        <span class="text-sm text-slate-400 font-medium mr-2" data-translate="filter_label">Filter:</span>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <span class="text-sm text-slate-400 font-medium mr-1" data-translate="filter_label">Filter:</span>
                         <div class="inline-flex rounded-lg border border-slate-800 p-0.5 bg-slate-900">
                             <button onclick="filterSyllabusGroup('Group 2')" id="btn-group2" class="px-3.5 py-1.5 rounded-md text-xs font-semibold bg-brand-600 text-white">Group 2</button>
-                            <button onclick="filterSyllabusGroup('Group 1')" id="btn-group1" class="px-3.5 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white">Group 1</button>
+                            <button onclick="filterSyllabusGroup('Group 1')" id="btn-group1" class="px-3.5 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white bg-slate-900">Group 1</button>
                         </div>
                         <div class="inline-flex rounded-lg border border-slate-800 p-0.5 bg-slate-900">
                             <button onclick="filterSyllabusStage('Prelims')" id="btn-prelims" class="px-3.5 py-1.5 rounded-md text-xs font-semibold bg-brand-600 text-white">Prelims</button>
-<button onclick="filterSyllabusStage('Mains')" id="btn-mains" class="px-3.5 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white">Mains</button>
+                            <button onclick="filterSyllabusStage('Mains')" id="btn-mains" class="px-3.5 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white bg-slate-900">Mains</button>
+                        </div>
+                        <!-- Search Box -->
+                        <div class="relative w-full sm:w-60 md:w-72">
+                            <input type="text" id="syllabus-search" oninput="triggerSyllabusSearch()" placeholder="Search topics..." class="w-full bg-slate-900 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white focus:outline-none focus:border-brand-500 placeholder-slate-500">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-[10px]"></i>
                         </div>
                     </div>
                     <div class="flex items-center space-x-3">
                         <span class="text-xs text-slate-400"><i class="fa-solid fa-info-circle mr-1"></i> <span data-translate="syllabus_info">Changes are saved automatically.</span></span>
+                        <button onclick="exportRevisionNotes()" class="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-850 text-slate-300 border border-slate-800 rounded-lg text-xs font-semibold flex items-center transition-colors cursor-pointer" title="Export study notes to print/save">
+                            <i class="fa-solid fa-file-export mr-1.5 text-emerald-400"></i> 
+                            <span id="txt-export-notes">Export Notes</span>
+                        </button>
                         <button onclick="resetSyllabusToOfficial()" class="px-2.5 py-1.5 bg-slate-900 hover:bg-slate-850 text-slate-300 border border-slate-800 rounded-lg text-xs font-semibold flex items-center transition-colors cursor-pointer">
                             <i class="fa-solid fa-arrows-rotate mr-1.5 text-indigo-400"></i> 
                             <span id="txt-sync-syllabus">Sync Syllabus</span>
@@ -1861,8 +1914,17 @@
                     const lwQCorrect = lastWeekQuizzes.reduce((sum, q) => sum + parseInt(q.correct_answers || 0), 0);
                     const lwAccuracy = lwQTotal > 0 ? Math.round((lwQCorrect / lwQTotal) * 100) : 0;
 
+                    const todoCount = syllabus.filter(s => s && s.status === 'todo').length;
+                    const ipCount = syllabus.filter(s => s && s.status === 'in_progress').length;
+                    const completedCount = syllabus.filter(s => s && s.status === 'completed').length;
+
                     responseData = {
                         overall_progress_pct: overallProg,
+                        syllabus_counts: {
+                            todo: todoCount,
+                            in_progress: ipCount,
+                            completed: completedCount
+                        },
                         total_study_hours: Math.round((totalDuration / 60) * 10) / 10,
                         total_study_mins: totalDuration,
                         subject_progress: subjProgress,
@@ -2129,7 +2191,13 @@
         let filterGroup = 'Group 2';
         let filterStage = 'Prelims';
         let filterStatus = 'all';
+        let syllabusSearchQuery = '';
         let globalLang = 'en'; 
+
+        function triggerSyllabusSearch() {
+            syllabusSearchQuery = document.getElementById('syllabus-search').value.toLowerCase().trim();
+            renderSyllabusAccordion();
+        } 
 
         function setSyllabusStatusFilter(status) {
             filterStatus = status;
@@ -2143,6 +2211,7 @@
         let studyChartInstance = null;
         let mockChartInstance = null;
         let breakdownChartInstance = null;
+        let coverageChartInstance = null;
         let budgetChartInstance = null;
 
         // Timer State
@@ -2637,6 +2706,7 @@
             document.getElementById('mock-date').value = todayStr;
             document.getElementById('schedule-input-date').value = todayStr;
             updateCountdowns();
+            loadDailyTargets();
             fetchSettings();
             fetchSyllabus();
             fetchLogs();
@@ -2760,6 +2830,15 @@
                 renderStudyChart(stats.weekly_study);
                 renderMockChart(stats.mock_scores);
                 renderBreakdownChart(stats.study_breakdown);
+                
+                if (stats.syllabus_counts) {
+                    renderSyllabusCoverageChart(
+                        stats.syllabus_counts.todo || 0,
+                        stats.syllabus_counts.in_progress || 0,
+                        stats.syllabus_counts.completed || 0
+                    );
+                }
+                renderRecentQuizScoreboard();
             } catch (err) {
                 console.error("Error fetching stats:", err);
             }
@@ -3641,6 +3720,69 @@
                     }
                 }
             });
+        function renderSyllabusCoverageChart(todo, ip, completed) {
+            const canvas = document.getElementById('syllabusCoverageChart');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            const labels = [
+                globalLang === 'te' ? 'చేయాలి (Pending)' : 'Pending',
+                globalLang === 'te' ? 'చదువుతున్నారు (In Progress)' : 'In Progress',
+                globalLang === 'te' ? 'పూర్తయింది (Completed)' : 'Completed'
+            ];
+            const values = [todo, ip, completed];
+            
+            if (coverageChartInstance) coverageChartInstance.destroy();
+            
+            if (todo === 0 && ip === 0 && completed === 0) {
+                coverageChartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [globalLang === 'te' ? 'సిలబస్ లోడ్ కాలేదు' : 'No Syllabus Data'],
+                        datasets: [{
+                            data: [1],
+                            backgroundColor: ['#1e293b'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } }
+                    }
+                });
+                return;
+            }
+            
+            coverageChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: ['#334155', '#fb923c', '#10b981'],
+                        borderColor: '#0f172a',
+                        borderWidth: 2,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const pct = total > 0 ? Math.round(context.raw / total * 100) : 0;
+                                    return ` ${context.label}: ${context.raw} topics (${pct}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         function renderSyllabusAccordion() {
@@ -3713,10 +3855,17 @@
                 const pct = totalTopics > 0 ? Math.round(completedTopics / totalTopics * 100) : 0;
                 const dispSubject = globalLang === 'te' ? (SUBJECT_TRANSLATIONS[subject] || subject) : subject;
 
-                // Check if any topic in this subject matches the status filter
+                // Check if any topic in this subject matches the status filter AND search query
                 let subjectHasMatchingTopics = false;
                 Object.values(units).forEach(topics => {
-                    const matches = topics.filter(t => filterStatus === 'all' || t.status === filterStatus);
+                    const matches = topics.filter(t => {
+                        const statusMatch = filterStatus === 'all' || t.status === filterStatus;
+                        const searchMatch = !syllabusSearchQuery || 
+                            t.topic.toLowerCase().includes(syllabusSearchQuery) || 
+                            t.subject.toLowerCase().includes(syllabusSearchQuery) || 
+                            t.unit.toLowerCase().includes(syllabusSearchQuery);
+                        return statusMatch && searchMatch;
+                    });
                     if (matches.length > 0) subjectHasMatchingTopics = true;
                 });
 
@@ -3747,8 +3896,15 @@
                 Object.entries(units).forEach(([unitName, topics]) => {
                     const dispUnitName = globalLang === 'te' ? (UNIT_TRANSLATIONS[unitName] || unitName) : unitName;
                     
-                    // Filter topics in this unit by active status filter
-                    const matchedTopics = topics.filter(t => filterStatus === 'all' || t.status === filterStatus);
+                    // Filter topics in this unit by active status filter and search query
+                    const matchedTopics = topics.filter(t => {
+                        const statusMatch = filterStatus === 'all' || t.status === filterStatus;
+                        const searchMatch = !syllabusSearchQuery || 
+                            t.topic.toLowerCase().includes(syllabusSearchQuery) || 
+                            t.subject.toLowerCase().includes(syllabusSearchQuery) || 
+                            t.unit.toLowerCase().includes(syllabusSearchQuery);
+                        return statusMatch && searchMatch;
+                    });
                     if (matchedTopics.length === 0) return; // Hide unit if no topics match
 
                     const unitDiv = document.createElement('div');
@@ -3940,6 +4096,209 @@
                     alert("Official syllabus seeds not found. Please reload the page.");
                 }
             }
+        }
+
+        function exportRevisionNotes() {
+            const notesList = syllabusData.filter(s => s.notes && s.notes.trim() !== '');
+            if (notesList.length === 0) {
+                alert(globalLang === 'te' ? "మీరు ఎటువంటి టాపిక్‌కు నోట్స్ రాయలేదు. ముందుగా సిలబస్ ట్రాకర్‌లో నోట్స్ రాయండి!" : "You have not saved any revision notes yet. Write some notes in the Syllabus Tracker first!");
+                return;
+            }
+            
+            const grouped = {};
+            notesList.forEach(item => {
+                if (!grouped[item.subject]) grouped[item.subject] = {};
+                if (!grouped[item.subject][item.unit]) grouped[item.subject][item.unit] = [];
+                grouped[item.subject][item.unit].push(item);
+            });
+            
+            let html = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>\${globalLang === 'te' ? 'సిలబస్ రివిజన్ నోట్స్' : 'Syllabus Revision Notes'}</title>
+                <style>
+                    body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #1e293b; max-width: 800px; margin: 30px auto; padding: 0 20px; background: #f8fafc; }
+                    h1 { text-align: center; color: #4f46e5; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 25px; }
+                    .subject-section { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 25px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+                    .subject-title { font-size: 1.3rem; font-weight: bold; color: #1e1b4b; border-left: 4px solid #4f46e5; padding-left: 10px; margin-top: 0; }
+                    .unit-section { margin-top: 15px; border-top: 1px dashed #f1f5f9; padding-top: 15px; }
+                    .unit-title { font-size: 1rem; font-weight: bold; color: #4338ca; text-transform: uppercase; letter-spacing: 0.5px; }
+                    .topic-card { background: #f8fafc; border-left: 3px solid #10b981; padding: 12px 15px; margin: 10px 0; border-radius: 4px; }
+                    .topic-name { font-weight: bold; color: #0f172a; margin: 0 0 5px 0; font-size: 0.95rem; }
+                    .topic-notes { font-size: 0.9rem; color: #334155; margin: 0; white-space: pre-wrap; }
+                    .no-print { text-align: right; margin-bottom: 20px; }
+                    .print-btn { background: #4f46e5; color: white; border: none; padding: 8px 16px; font-size: 0.9rem; font-weight: bold; border-radius: 6px; cursor: pointer; }
+                    .print-btn:hover { background: #4338ca; }
+                    @media print {
+                        body { background: white; margin: 0; padding: 0; }
+                        .no-print { display: none; }
+                        .subject-section { box-shadow: none; border: none; padding: 0; margin-bottom: 30px; page-break-inside: avoid; }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="no-print">
+                    <button class="print-btn" onclick="window.print()">\${globalLang === 'te' ? 'ప్రింట్ / పిడిఎఫ్ సేవ్ చేయి' : 'Print / Save as PDF'}</button>
+                </div>
+                <h1>\${globalLang === 'te' ? 'APPSC ప్రిపరేషన్ - సిలబస్ రివిజన్ నోట్స్' : 'APPSC Prep - Syllabus Revision Notes'}</h1>
+            `;
+            
+            Object.entries(grouped).forEach(([subject, units]) => {
+                const dispSubject = globalLang === 'te' ? (SUBJECT_TRANSLATIONS[subject] || subject) : subject;
+                html += \`
+                <div class="subject-section">
+                    <div class="subject-title">\${dispSubject}</div>
+                \`;
+                
+                Object.entries(units).forEach(([unitName, topics]) => {
+                    const dispUnitName = globalLang === 'te' ? (UNIT_TRANSLATIONS[unitName] || unitName) : unitName;
+                    html += \`
+                    <div class="unit-section">
+                        <div class="unit-title">\${dispUnitName}</div>
+                    \`;
+                    
+                    topics.forEach(t => {
+                        html += \`
+                        <div class="topic-card">
+                            <div class="topic-name">\${t.topic}</div>
+                            <p class="topic-notes">\${t.notes}</p>
+                        </div>
+                        \`;
+                    });
+                    
+                    html += \`</div>\`;
+                });
+                
+                html += \`</div>\`;
+            });
+            
+            html += `
+            </body>
+            </html>
+            `;
+            
+            const win = window.open();
+            win.document.write(html);
+            win.document.close();
+        }
+
+        // Daily Targets Functionality
+        function loadDailyTargets() {
+            const listContainer = document.getElementById('daily-targets-list');
+            if (!listContainer) return;
+            
+            const targets = getLocal('off_daily_targets', []);
+            const total = targets.length;
+            const completed = targets.filter(t => t.is_completed).length;
+            
+            const statsBadge = document.getElementById('daily-targets-stats');
+            if (statsBadge) {
+                statsBadge.innerText = `${completed}/${total}`;
+                statsBadge.className = `text-xs font-semibold px-2 py-0.5 rounded ${completed === total && total > 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-indigo-500/10 text-indigo-400'}`;
+            }
+            
+            if (total === 0) {
+                listContainer.innerHTML = `<div class="text-center text-slate-500 py-10 text-xs">${globalLang === 'te' ? 'నేటి ప్రణాళికలో ఎటువంటి లక్ష్యాలు లేవు. పైన యాడ్ చేయండి!' : 'No study targets set for today. Add one above!'}</div>`;
+                return;
+            }
+            
+            listContainer.innerHTML = '';
+            targets.forEach((t, index) => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center justify-between bg-slate-900/40 border border-slate-800 rounded-lg p-2.5';
+                item.innerHTML = `
+                    <div class="flex items-center space-x-2.5">
+                        <input type="checkbox" ${t.is_completed ? 'checked' : ''} onchange="toggleDailyTarget(${index})" class="rounded border-slate-700 bg-slate-950 text-indigo-500 focus:ring-0 focus:ring-offset-0 h-4 w-4 cursor-pointer">
+                        <span class="text-xs font-medium ${t.is_completed ? 'line-through text-slate-500' : 'text-slate-200'}">${t.text}</span>
+                    </div>
+                    <button onclick="deleteDailyTarget(${index})" class="text-slate-500 hover:text-rose-500 text-xs transition-colors cursor-pointer"><i class="fa-solid fa-trash"></i></button>
+                `;
+                listContainer.appendChild(item);
+            });
+        }
+        
+        function addDailyTarget() {
+            const input = document.getElementById('daily-target-input');
+            if (!input || input.value.trim() === '') return;
+            
+            const targets = getLocal('off_daily_targets', []);
+            targets.push({ text: input.value.trim(), is_completed: false });
+            setLocal('off_daily_targets', targets);
+            input.value = '';
+            loadDailyTargets();
+        }
+        
+        function toggleDailyTarget(index) {
+            const targets = getLocal('off_daily_targets', []);
+            if (targets[index]) {
+                targets[index].is_completed = !targets[index].is_completed;
+                setLocal('off_daily_targets', targets);
+                loadDailyTargets();
+            }
+        }
+        
+        function deleteDailyTarget(index) {
+            const targets = getLocal('off_daily_targets', []);
+            targets.splice(index, 1);
+            setLocal('off_daily_targets', targets);
+            loadDailyTargets();
+        }
+
+        // Quiz Scoreboard History Functionality
+        function renderRecentQuizScoreboard() {
+            const container = document.getElementById('recent-quizzes-container');
+            if (!container) return;
+            
+            const quizHistory = getLocal('off_quiz_history', []);
+            if (quizHistory.length === 0) {
+                container.innerHTML = `<div class="text-center text-slate-500 py-10 text-xs">${globalLang === 'te' ? 'క్విజ్ చరిత్ర ఖాళీగా ఉంది. ఇంకా క్విజ్ రాయలేదు!' : 'No quiz attempts logged yet. Go to Practice Quiz tab!'}</div>`;
+                return;
+            }
+            
+            const sortedHistory = [...quizHistory].sort((a, b) => new Date(b.attempt_date) - new Date(a.attempt_date)).slice(0, 5);
+            
+            let html = `
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-800 text-slate-400 font-semibold uppercase tracking-wider text-[10px]">
+                            <th class="py-2.5 px-3">${globalLang === 'te' ? 'తేదీ' : 'Date'}</th>
+                            <th class="py-2.5 px-3">${globalLang === 'te' ? 'సబ్జెక్ట్' : 'Subject'}</th>
+                            <th class="py-2.5 px-3 text-center">${globalLang === 'te' ? 'స్కోర్' : 'Score'}</th>
+                            <th class="py-2.5 px-3 text-right">${globalLang === 'te' ? 'శాతం' : 'Accuracy'}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-850">
+            `;
+            
+            sortedHistory.forEach(q => {
+                const dateObj = new Date(q.attempt_date);
+                const dispDate = dateObj.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+                const accuracy = q.total_questions > 0 ? Math.round((q.correct_answers / q.total_questions) * 100) : 0;
+                
+                let badgeClass = 'text-rose-400';
+                if (accuracy >= 80) badgeClass = 'text-emerald-400';
+                else if (accuracy >= 50) badgeClass = 'text-amber-400';
+                
+                const dispSubj = globalLang === 'te' ? (SUBJECT_TRANSLATIONS[q.subject] || q.subject) : q.subject;
+                
+                html += `
+                        <tr class="text-slate-300">
+                            <td class="py-2 px-3">${dispDate}</td>
+                            <td class="py-2 px-3 font-semibold truncate max-w-[150px]" title="${dispSubj}">${dispSubj}</td>
+                            <td class="py-2 px-3 text-center font-bold">${q.correct_answers}/${q.total_questions}</td>
+                            <td class="py-2 px-3 text-right font-extrabold ${badgeClass}">${accuracy}%</td>
+                        </tr>
+                `;
+            });
+            
+            html += `
+                    </tbody>
+                </table>
+            </div>
+            `;
+            container.innerHTML = html;
         }
 
         function toggleTimerLabel() {
