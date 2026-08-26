@@ -808,6 +808,7 @@
                     </div>
                     <span class="text-xs text-slate-400"><i class="fa-solid fa-info-circle mr-1"></i> <span data-translate="syllabus_info">Changes are saved automatically.</span></span>
                 </div>
+                <div id="syllabus-summary-container" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
                 <div id="syllabus-accordion" class="space-y-4"></div>
             </section>
 
@@ -1573,6 +1574,64 @@
 
         // Intercept native fetch for offline mode
         const originalFetch = window.fetch;
+        const initSeeds = () => {
+                 let syllabus = [];
+                 try { syllabus = JSON.parse(localStorage.getItem('off_syllabus') || '[]'); } catch(e) {}
+                 if ((!syllabus || syllabus.length === 0) && typeof SEED_SYLLABUS !== 'undefined') {
+                     setLocal('off_syllabus', SEED_SYLLABUS);
+                 } else if (syllabus && typeof SEED_SYLLABUS !== 'undefined' && syllabus.length < SEED_SYLLABUS.length) {
+                     // Migrate/merge old syllabus to keep checked progress but add new topics
+                     const statusMap = {};
+                     const notesMap = {};
+                     syllabus.forEach(item => {
+                         const key = `${item.group_type}-${item.stage}-${item.paper}-${item.subject}-${item.unit}-${item.topic}`;
+                         statusMap[key] = item.status;
+                         notesMap[key] = item.notes;
+                     });
+                     
+                     const mergedSyllabus = SEED_SYLLABUS.map((item, index) => {
+                         const key = `${item.group_type}-${item.stage}-${item.paper}-${item.subject}-${item.unit}-${item.topic}`;
+                         return {
+                             id: index + 1,
+                             group_type: item.group_type,
+                             stage: item.stage,
+                             paper: item.paper,
+                             subject: item.subject,
+                             unit: item.unit,
+                             topic: item.topic,
+                             status: statusMap[key] || item.status || 'todo',
+                             notes: notesMap[key] || item.notes || ''
+                         };
+                     });
+                     setLocal('off_syllabus', mergedSyllabus);
+                 }
+                 
+                 let timetable = [];
+                 try { timetable = JSON.parse(localStorage.getItem('off_timetable') || '[]'); } catch(e) {}
+                 if ((!timetable || timetable.length === 0) && typeof SEED_TIMETABLE !== 'undefined') {
+                     setLocal('off_timetable', SEED_TIMETABLE);
+                 }
+                 
+                 let flashcards = [];
+                 try { flashcards = JSON.parse(localStorage.getItem('off_flashcards') || '[]'); } catch(e) {}
+                 if ((!flashcards || flashcards.length === 0) && typeof SEED_FLASHCARDS !== 'undefined') {
+                     setLocal('off_flashcards', SEED_FLASHCARDS);
+                 }
+                 
+                 let videos = [];
+                 try { videos = JSON.parse(localStorage.getItem('off_videos') || '[]'); } catch(e) {}
+                 if ((!videos || videos.length === 0) && typeof SEED_VIDEOS !== 'undefined') {
+                     setLocal('off_videos', SEED_VIDEOS);
+                 }
+                 
+                 let papers = [];
+                 try { papers = JSON.parse(localStorage.getItem('off_papers') || '[]'); } catch(e) {}
+                 if ((!papers || papers.length === 0) && typeof SEED_PAPERS !== 'undefined') {
+                     setLocal('off_papers', SEED_PAPERS);
+                 }
+             };
+             initSeeds();
+
         window.fetch = async function(url, options) {
             const urlStr = url.toString();
             let path = urlStr;
@@ -2048,7 +2107,13 @@
         let syllabusData = [];
         let filterGroup = 'Group 2';
         let filterStage = 'Prelims';
+        let filterStatus = 'all';
         let globalLang = 'en'; 
+
+        function setSyllabusStatusFilter(status) {
+            filterStatus = status;
+            renderSyllabusAccordion();
+        } 
         
         // Settings State
         let weeklyStudyGoalHours = 20;
@@ -3561,8 +3626,37 @@
             const container = document.getElementById('syllabus-accordion');
             if (!container) return;
             container.innerHTML = '';
+            
             const filtered = syllabusData.filter(item => item.group_type === filterGroup && item.stage === filterStage);
             
+            // Compute status counts based on current group/stage
+            const total = filtered.length;
+            const completedCount = filtered.filter(t => t.status === 'completed').length;
+            const inProgressCount = filtered.filter(t => t.status === 'in_progress').length;
+            const todoCount = filtered.filter(t => t.status === 'todo').length;
+
+            const summaryContainer = document.getElementById('syllabus-summary-container');
+            if (summaryContainer) {
+                summaryContainer.innerHTML = `
+                    <div onclick="setSyllabusStatusFilter('all')" class="cursor-pointer bg-slate-955 border ${filterStatus === 'all' ? 'border-indigo-500 ring-2 ring-indigo-500/20' : 'border-slate-800'} rounded-xl p-4 flex flex-col items-center justify-center text-center space-y-1 hover:border-slate-750 transition-all select-none">
+                        <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">${globalLang === 'te' ? 'మొత్తం టాపిక్స్' : 'Total Topics'}</span>
+                        <span class="text-xl font-extrabold text-white">${total}</span>
+                    </div>
+                    <div onclick="setSyllabusStatusFilter('completed')" class="cursor-pointer bg-slate-955 border ${filterStatus === 'completed' ? 'border-emerald-500 ring-2 ring-emerald-500/20' : 'border-slate-800'} rounded-xl p-4 flex flex-col items-center justify-center text-center space-y-1 hover:border-slate-750 transition-all select-none">
+                        <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">${globalLang === 'te' ? 'పూర్తయినవి' : 'Completed'}</span>
+                        <span class="text-xl font-extrabold text-emerald-400">${completedCount}</span>
+                    </div>
+                    <div onclick="setSyllabusStatusFilter('in_progress')" class="cursor-pointer bg-slate-955 border ${filterStatus === 'in_progress' ? 'border-amber-500 ring-2 ring-amber-500/20' : 'border-slate-800'} rounded-xl p-4 flex flex-col items-center justify-center text-center space-y-1 hover:border-slate-750 transition-all select-none">
+                        <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">${globalLang === 'te' ? 'చదువుతున్నవి' : 'In Progress'}</span>
+                        <span class="text-xl font-extrabold text-amber-400">${inProgressCount}</span>
+                    </div>
+                    <div onclick="setSyllabusStatusFilter('todo')" class="cursor-pointer bg-slate-955 border ${filterStatus === 'todo' ? 'border-slate-500 ring-2 ring-slate-500/20' : 'border-slate-800'} rounded-xl p-4 flex flex-col items-center justify-center text-center space-y-1 hover:border-slate-750 transition-all select-none">
+                        <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">${globalLang === 'te' ? 'ఇంకా చదవాల్సినవి' : 'Pending'}</span>
+                        <span class="text-xl font-extrabold text-slate-300">${todoCount}</span>
+                    </div>
+                `;
+            }
+
             if (filtered.length === 0) {
                 container.innerHTML = `<div class="text-center text-slate-500 py-10 bg-slate-950 border border-slate-800 rounded-xl">No syllabus records match.</div>`;
                 return;
@@ -3576,8 +3670,12 @@
             });
 
             let index = 0;
+            let totalRenderedSubjects = 0;
+            
             Object.entries(subjectsMap).forEach(([subject, units]) => {
                 const subjectId = `subject-${index++}`;
+                
+                // Calculate subject percentage based on ALL topics in this subject
                 let totalTopics = 0;
                 let completedTopics = 0;
                 Object.values(units).forEach(topics => {
@@ -3589,6 +3687,18 @@
                 });
                 const pct = totalTopics > 0 ? Math.round(completedTopics / totalTopics * 100) : 0;
                 const dispSubject = globalLang === 'te' ? (SUBJECT_TRANSLATIONS[subject] || subject) : subject;
+
+                // Check if any topic in this subject matches the status filter
+                let subjectHasMatchingTopics = false;
+                Object.values(units).forEach(topics => {
+                    const matches = topics.filter(t => filterStatus === 'all' || t.status === filterStatus);
+                    if (matches.length > 0) subjectHasMatchingTopics = true;
+                });
+
+                // If subject has no matching topics under active status filter, skip rendering this subject
+                if (!subjectHasMatchingTopics) return;
+                
+                totalRenderedSubjects++;
 
                 const accordionCard = document.createElement('div');
                 accordionCard.className = 'bg-slate-950 border border-slate-800 rounded-xl overflow-hidden shadow-sm';
@@ -3611,6 +3721,11 @@
                 
                 Object.entries(units).forEach(([unitName, topics]) => {
                     const dispUnitName = globalLang === 'te' ? (UNIT_TRANSLATIONS[unitName] || unitName) : unitName;
+                    
+                    // Filter topics in this unit by active status filter
+                    const matchedTopics = topics.filter(t => filterStatus === 'all' || t.status === filterStatus);
+                    if (matchedTopics.length === 0) return; // Hide unit if no topics match
+
                     const unitDiv = document.createElement('div');
                     unitDiv.className = 'space-y-2.5';
                     unitDiv.innerHTML = `
@@ -3618,7 +3733,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="topics-grid"></div>
                     `;
                     const grid = unitDiv.querySelector('#topics-grid');
-                    topics.forEach(t => {
+                    matchedTopics.forEach(t => {
                         const statusColors = {
                             todo: { bg: 'bg-slate-900 border-slate-800 text-slate-400', label: globalLang === 'te' ? 'చేయాలి' : 'To Do' },
                             in_progress: { bg: 'bg-amber-955/20 border-amber-500/30 text-amber-400', label: globalLang === 'te' ? 'చదువుతున్నారు' : 'In Progress' },
@@ -3626,7 +3741,6 @@
                         };
                         const col = statusColors[t.status];
                         
-                        // Direct web search links
                         const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent('APPSC Group 2 ' + t.topic + ' study material notes')}`;
                         const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent('APPSC Group 2 ' + t.topic)}`;
 
@@ -3644,7 +3758,6 @@
                                     <div class="flex items-center space-x-2 mt-1.5">
                                         <span class="text-[10px] font-semibold opacity-80">${col.label}</span>
                                         <span class="text-slate-600 text-[10px]">•</span>
-                                        <!-- Search linkers -->
                                         <a href="${googleSearchUrl}" target="_blank" title="Search Notes on Google" class="text-[10px] text-indigo-400 hover:text-indigo-300 font-bold flex items-center"><i class="fa-solid fa-magnifying-glass mr-0.5"></i> Notes</a>
                                         <a href="${youtubeSearchUrl}" target="_blank" title="Search Video Lectures on YouTube" class="text-[10px] text-red-400 hover:text-red-300 font-bold flex items-center"><i class="fa-brands fa-youtube mr-0.5"></i> Video</a>
                                     </div>
@@ -3656,7 +3769,6 @@
                                     <button onclick="updateTopicStatus(${t.id}, 'completed')" title="Mark Completed" class="h-7 w-7 rounded-lg border border-emerald-500/20 hover:bg-emerald-500/10 text-xs flex items-center justify-center text-emerald-400 bg-slate-900"><i class="fa-solid fa-circle-check"></i></button>
                                 </div>
                             </div>
-                            <!-- Notes area -->
                             <div id="notes-form-${t.id}" class="mt-3 pt-3 border-t border-slate-855 space-y-2 hidden">
                                 <textarea id="notes-text-${t.id}" rows="3" class="w-full bg-slate-955 border border-slate-800 rounded-lg p-2 text-[11px] text-slate-200 focus:outline-none focus:border-brand-500" placeholder="${globalLang === 'te' ? 'ఈ టాపిక్ యొక్క ముఖ్యమైన పాయింట్లను ఇక్కడ రాయండి...' : 'Write key revision points for this topic here...'}">${t.notes || ''}</textarea>
                                 <div class="flex justify-end">
@@ -3672,6 +3784,10 @@
                 });
                 container.appendChild(accordionCard);
             });
+
+            if (totalRenderedSubjects === 0) {
+                container.innerHTML = `<div class="text-center text-slate-500 py-10 bg-slate-955 border border-slate-800 rounded-xl">No topics match this status filter.</div>`;
+            }
         }
 
         function toggleTopicNotesForm(topicId) {
@@ -3747,6 +3863,7 @@
         // Filter Syllabus
         function filterSyllabusGroup(group) {
             filterGroup = group;
+            filterStatus = 'all';
             document.getElementById('btn-group2').className = group === 'Group 2' ? "px-3.5 py-1.5 rounded-md text-xs font-semibold bg-brand-600 text-white" : "px-3.5 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white bg-slate-900";
             document.getElementById('btn-group1').className = group === 'Group 1' ? "px-3.5 py-1.5 rounded-md text-xs font-semibold bg-brand-600 text-white" : "px-3.5 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white bg-slate-900";
             renderSyllabusAccordion();
@@ -3754,6 +3871,7 @@
 
         function filterSyllabusStage(stage) {
             filterStage = stage;
+            filterStatus = 'all';
             document.getElementById('btn-prelims').className = stage === 'Prelims' ? "px-3.5 py-1.5 rounded-md text-xs font-semibold bg-brand-600 text-white" : "px-3.5 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white bg-slate-900";
             document.getElementById('btn-mains').className = stage === 'Mains' ? "px-3.5 py-1.5 rounded-md text-xs font-semibold bg-brand-600 text-white" : "px-3.5 py-1.5 rounded-md text-xs font-semibold text-slate-400 hover:text-white bg-slate-900";
             renderSyllabusAccordion();
@@ -4409,7 +4527,7 @@
                 card.className = 'bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-2.5 shadow-sm';
                 let linkButton = `
                     <button onclick="openCAArticleModal(${item.id})" class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold inline-flex items-center bg-transparent border-0 cursor-pointer">
-                        ${globalLang === 'te' ? 'పూర్తి లింక్' : 'Read Full Article'} <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-[10px]"></i>
+                        ${globalLang === 'te' ? 'పూర్తి వివరాలు' : 'Read Full Details'} <i class="fa-solid fa-eye ml-1.5 text-[11px]"></i>
                     </button>
                 `;
                 card.innerHTML = `
@@ -4479,7 +4597,7 @@
             }
 
             const linkEl = document.getElementById('modal-ca-link');
-            if (item.link) {
+            if (item.link && item.link.trim() !== '' && item.link !== 'https://psc.ap.gov.in/') {
                 linkEl.href = item.link;
                 linkEl.style.display = '';
             } else {
