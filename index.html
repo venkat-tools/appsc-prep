@@ -1819,6 +1819,10 @@
             } catch(e) {}
             if (videos.length === 0 && typeof SEED_VIDEOS !== 'undefined') {
                 setLocal('off_videos', SEED_VIDEOS);
+                videos = SEED_VIDEOS;
+            } else if (videos.some(v => v.video_url && v.video_url.includes('strategy1')) && typeof SEED_VIDEOS !== 'undefined') {
+                setLocal('off_videos', SEED_VIDEOS);
+                videos = SEED_VIDEOS;
             }
             
             let papers = [];
