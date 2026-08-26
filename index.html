@@ -122,8 +122,8 @@
                 <button onclick="switchTab('videos')" id="nav-videos" class="w-full flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-colors text-slate-400 hover:text-white hover:bg-slate-900">
                     <i class="fa-brands fa-youtube mr-3.5 text-lg w-5 text-red-500"></i> <span data-translate="nav_videos">Video Lectures</span>
                 </button>
-                <button onclick="switchTab('papers')" id="nav-papers" class="w-full flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-colors text-slate-400 hover:text-white hover:bg-slate-900">
-                    <i class="fa-solid fa-file-pdf mr-3.5 text-lg w-5"></i> <span data-translate="nav_papers">Previous Papers</span>
+                <button onclick="switchTab('schemes')" id="nav-schemes" class="w-full flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-colors text-slate-400 hover:text-white hover:bg-slate-900">
+                    <i class="fa-solid fa-hand-holding-dollar mr-3.5 text-lg w-5 text-amber-500"></i> <span data-translate="nav_schemes">Schemes & Budget</span>
                 </button>
                 <button onclick="switchTab('affairs')" id="nav-affairs" class="w-full flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-colors text-slate-400 hover:text-white hover:bg-slate-900">
                     <i class="fa-solid fa-newspaper mr-3.5 text-lg w-5"></i> <span data-translate="nav_affairs">Current Affairs</span>
@@ -547,6 +547,20 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Previous Years Question Papers Card -->
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 shadow-sm space-y-4">
+                    <div>
+                        <h3 class="font-bold text-slate-200 text-sm flex items-center">
+                            <i class="fa-solid fa-file-pdf text-brand-500 mr-2 text-lg"></i>
+                            <span data-translate="papers_title">APPSC Previous Years Question Papers (గత ప్రశ్నాపత్రాలు)</span>
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-1" data-translate="papers_desc">Download official question papers and log your practice test scores to track metrics.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="papers-grid">
+                        <!-- Dynamic paper cards will be injected here -->
+                    </div>
+                </div>
             </section>
 
             <!-- ==================== PRELIMS PREP TAB ==================== -->
@@ -812,12 +826,17 @@
                             <i class="fa-solid fa-map-location-dot text-emerald-400 mr-2 text-lg"></i>
                             <span data-translate="geo_map_center_title">AP Geography Map Pointing Center (మ్యాప్ పాయింటింగ్)</span>
                         </h3>
-                        <div class="inline-flex rounded-lg border border-slate-800 p-0.5 bg-slate-900 text-xs flex-wrap gap-1">
-                            <button onclick="switchGeoMap('rivers')" id="btn-map-rivers" class="px-3 py-1.5 rounded-md font-semibold bg-brand-600 text-white">AP Rivers</button>
-                            <button onclick="switchGeoMap('physical')" id="btn-map-physical" class="px-3 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">AP Hills</button>
-                            <button onclick="switchGeoMap('coast')" id="btn-map-coast" class="px-3 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">AP Coast</button>
-                            <button onclick="switchGeoMap('india')" id="btn-map-india" class="px-3 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">India Physical</button>
-                            <button onclick="switchGeoMap('world')" id="btn-map-world" class="px-3 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">World Geo</button>
+                        <div class="flex items-center space-x-3 flex-wrap gap-2">
+                            <button id="map-mode-btn" onclick="toggleMapMode()" class="px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-800 bg-slate-900 hover:bg-slate-850 text-indigo-400 hover:text-indigo-300 cursor-pointer transition-all flex items-center">
+                                <i class="fa-solid fa-eye-slash mr-1.5"></i> Active Recall Mode
+                            </button>
+                            <div class="inline-flex rounded-lg border border-slate-800 p-0.5 bg-slate-900 text-xs flex-wrap gap-1">
+                                <button onclick="switchGeoMap('rivers')" id="btn-map-rivers" class="px-3 py-1.5 rounded-md font-semibold bg-brand-600 text-white">AP Rivers</button>
+                                <button onclick="switchGeoMap('physical')" id="btn-map-physical" class="px-3 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">AP Hills</button>
+                                <button onclick="switchGeoMap('coast')" id="btn-map-coast" class="px-3 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">AP Coast</button>
+                                <button onclick="switchGeoMap('india')" id="btn-map-india" class="px-3 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">India Physical</button>
+                                <button onclick="switchGeoMap('world')" id="btn-map-world" class="px-3 py-1.5 rounded-md font-semibold text-slate-400 hover:text-white">World Geo</button>
+                            </div>
                         </div>
                     </div>
                     
@@ -1108,7 +1127,10 @@
 
                 <div id="quiz-active-box" class="bg-slate-955 border border-slate-800 rounded-xl p-6 md:p-8 max-w-3xl mx-auto space-y-6 shadow-md hidden">
                     <div class="flex justify-between items-center text-xs font-semibold text-slate-400">
-                        <span id="quiz-question-subject" class="bg-indigo-500/10 text-indigo-400 px-2.5 py-1 rounded">Subject</span>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="exitQuiz()" class="text-slate-400 hover:text-white mr-2 flex items-center bg-slate-900/60 border border-slate-800 rounded px-2.5 py-1.5 cursor-pointer transition-colors"><i class="fa-solid fa-arrow-left mr-1.5"></i> Back</button>
+                            <span id="quiz-question-subject" class="bg-indigo-500/10 text-indigo-400 px-2.5 py-1 rounded">Subject</span>
+                        </div>
                         <div class="flex items-center space-x-3">
                             <div id="quiz-sim-timer" class="text-xs font-mono font-bold text-rose-400 bg-rose-955/20 px-2.5 py-1 rounded border border-rose-500/20 hidden">
                                 <i class="fa-solid fa-clock mr-1 animate-pulse"></i> <span>05:00</span>
@@ -1348,14 +1370,101 @@
                 </div>
             </section>
 
-            <!-- ==================== PREVIOUS PAPERS TAB ==================== -->
-            <section id="tab-papers" class="space-y-6 hidden">
-                <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 shadow-sm">
-                    <div class="mb-4">
-                        <h3 class="font-bold text-slate-200 text-lg" data-translate="papers_title">APPSC Previous Years Question Papers</h3>
-                        <p class="text-xs text-slate-400" data-translate="papers_desc">Download official question papers and log your practice test scores to track metrics.</p>
+            <!-- ==================== GOVERNMENT SCHEMES & BUDGET TAB ==================== -->
+            <section id="tab-schemes" class="space-y-6 hidden">
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-6 shadow-sm space-y-6">
+                    <div class="border-b border-slate-850 pb-4">
+                        <h3 class="font-bold text-slate-200 text-lg">AP Government Schemes & Budget Tracker (పథకాలు & బడ్జెట్)</h3>
+                        <p class="text-xs text-slate-400">Track and revise important high-yield government schemes, economic indicators, and state budget allocations for APPSC Group 1 & 2.</p>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="papers-grid"></div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Left Column: Key Schemes Checklist -->
+                        <div class="bg-slate-900/40 border border-slate-850 rounded-xl p-5 space-y-4">
+                            <h4 class="font-bold text-white text-sm flex items-center">
+                                <i class="fa-solid fa-hand-holding-heart text-pink-400 mr-2"></i>
+                                <span>High-Yield AP Welfare Schemes (ముఖ్యమైన పథకాలు)</span>
+                            </h4>
+                            <div class="space-y-3 max-h-[400px] overflow-y-auto pr-1 text-xs">
+                                <div class="bg-slate-950/60 p-3 rounded-lg border border-slate-800 space-y-2 flex items-start space-x-3">
+                                    <input type="checkbox" id="scheme-1" onchange="toggleScheme(1)" class="h-4 w-4 rounded border-slate-700 bg-slate-850 text-indigo-500 mt-0.5 cursor-pointer">
+                                    <div>
+                                        <h5 class="font-bold text-slate-200">Talliki Vandanam (తల్లికి వందనం)</h5>
+                                        <p class="text-slate-400 font-medium">Financial Assistance of ₹15,000 per year directly to mothers of school-going children (Class 1 to 12) from BPL families.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-950/60 p-3 rounded-lg border border-slate-800 space-y-2 flex items-start space-x-3">
+                                    <input type="checkbox" id="scheme-2" onchange="toggleScheme(2)" class="h-4 w-4 rounded border-slate-700 bg-slate-850 text-indigo-500 mt-0.5 cursor-pointer">
+                                    <div>
+                                        <h5 class="font-bold text-slate-200">Annadatha Sukhibhava (అన్నదాత సుఖీభవ)</h5>
+                                        <p class="text-slate-400 font-medium">Financial aid of ₹20,000 per year to farmers (inclusive of PM-KISAN ₹6,000) to support input costs and agriculture purchase.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-950/60 p-3 rounded-lg border border-slate-800 space-y-2 flex items-start space-x-3">
+                                    <input type="checkbox" id="scheme-3" onchange="toggleScheme(3)" class="h-4 w-4 rounded border-slate-700 bg-slate-850 text-indigo-500 mt-0.5 cursor-pointer">
+                                    <div>
+                                        <h5 class="font-bold text-slate-200">Adapaduchu Nidhi (ఆడబిడ్డ నిధి)</h5>
+                                        <p class="text-slate-400 font-medium">Monthly financial pension of ₹1,500 directly credited to eligible women in AP aged between 18 and 59 years.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-950/60 p-3 rounded-lg border border-slate-800 space-y-2 flex items-start space-x-3">
+                                    <input type="checkbox" id="scheme-4" onchange="toggleScheme(4)" class="h-4 w-4 rounded border-slate-700 bg-slate-850 text-indigo-500 mt-0.5 cursor-pointer">
+                                    <div>
+                                        <h5 class="font-bold text-slate-200">Deepam Scheme (దీపం పథకం - ఉచిత సిలిండర్లు)</h5>
+                                        <p class="text-slate-400 font-medium">Provision of 3 domestic LPG gas cylinders completely free of cost every year to domestic gas connection holders.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-950/60 p-3 rounded-lg border border-slate-800 space-y-2 flex items-start space-x-3">
+                                    <input type="checkbox" id="scheme-5" onchange="toggleScheme(5)" class="h-4 w-4 rounded border-slate-700 bg-slate-850 text-indigo-500 mt-0.5 cursor-pointer">
+                                    <div>
+                                        <h5 class="font-bold text-slate-200">Uchitha RTC Prayanam ( RTC బస్సులలో ఉచిత ప్రయాణం)</h5>
+                                        <p class="text-slate-400 font-medium">Free travel facility for all resident women in APSRTC Palle Velugu and Express buses across the state.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-950/60 p-3 rounded-lg border border-slate-800 space-y-2 flex items-start space-x-3">
+                                    <input type="checkbox" id="scheme-6" onchange="toggleScheme(6)" class="h-4 w-4 rounded border-slate-700 bg-slate-850 text-indigo-500 mt-0.5 cursor-pointer">
+                                    <div>
+                                        <h5 class="font-bold text-slate-200">Nirudyoga Vruthi (యువగళం నిరుద్యోగ భృతి)</h5>
+                                        <p class="text-slate-400 font-medium">Monthly unemployment allowance of ₹3,000 for eligible qualified unemployed youth in AP until they secure employment.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Budget & Economy Indicators -->
+                        <div class="bg-slate-900/40 border border-slate-855 rounded-xl p-5 space-y-4">
+                            <h4 class="font-bold text-white text-sm flex items-center">
+                                <i class="fa-solid fa-chart-pie text-amber-400 mr-2"></i>
+                                <span>AP Budget 2026 Core Data Points (రాష్ట్ర బడ్జెట్)</span>
+                            </h4>
+                            <div class="space-y-3 text-xs">
+                                <div class="bg-slate-950/60 p-3.5 rounded-lg border border-slate-800 flex justify-between items-center">
+                                    <span class="text-slate-300 font-semibold">Total Budget Outlay (మొత్తం వ్యయం)</span>
+                                    <span class="text-amber-400 font-extrabold text-sm">₹2.94 Lakh Crores</span>
+                                </div>
+                                <div class="bg-slate-950/60 p-3.5 rounded-lg border border-slate-800 flex justify-between items-center">
+                                    <span class="text-slate-300 font-semibold">Education Allocation (పాఠశాల విద్య)</span>
+                                    <span class="text-indigo-400 font-extrabold text-sm">₹32,150 Crores</span>
+                                </div>
+                                <div class="bg-slate-950/60 p-3.5 rounded-lg border border-slate-800 flex justify-between items-center">
+                                    <span class="text-slate-300 font-semibold">Welfare Allocations (సాంఘిక సంక్షేమం)</span>
+                                    <span class="text-emerald-400 font-extrabold text-sm">₹28,890 Crores</span>
+                                </div>
+                                <div class="bg-slate-950/60 p-3.5 rounded-lg border border-slate-800 flex justify-between items-center">
+                                    <span class="text-slate-300 font-semibold">Agriculture Allocation (వ్యవసాయం)</span>
+                                    <span class="text-amber-400 font-extrabold text-sm">₹22,050 Crores</span>
+                                </div>
+                                <div class="bg-slate-950/60 p-3.5 rounded-lg border border-slate-800 flex justify-between items-center">
+                                    <span class="text-slate-300 font-semibold">GSDP Real Growth Rate (రాష్ట్ర వృద్ధి రేటు)</span>
+                                    <span class="text-emerald-400 font-extrabold text-sm">10.4%</span>
+                                </div>
+                                <div class="bg-slate-950/60 p-3.5 rounded-lg border border-slate-800 flex justify-between items-center">
+                                    <span class="text-slate-300 font-semibold">Fiscal Deficit Target (ద్రవ్య లోటు)</span>
+                                    <span class="text-rose-400 font-extrabold text-sm">3.25% of GSDP</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -1802,6 +1911,18 @@
                         const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
                         responseData = questions[dayOfYear % questions.length];
                     }
+                }
+                else if (path === "/api/quiz/questions") {
+                    const questions = typeof SEED_QUIZ_QUESTIONS !== 'undefined' ? SEED_QUIZ_QUESTIONS : [];
+                    const limit = parseInt(urlStr.includes("limit=") ? urlStr.split("limit=")[1].split("&")[0] : "5");
+                    let filtered = questions;
+                    if (urlStr.includes("subject=")) {
+                        const subjRaw = urlStr.split("subject=")[1].split("&")[0];
+                        const subj = decodeURIComponent(subjRaw);
+                        filtered = questions.filter(q => q.subject && q.subject.toLowerCase().includes(subj.toLowerCase()));
+                    }
+                    const shuffled = [...filtered].sort(() => 0.5 - Math.random());
+                    responseData = shuffled.slice(0, limit);
                 }
                 else if (path === "/api/papers") {
                     responseData = getLocal('off_papers');
@@ -2326,7 +2447,7 @@
                 nav_mock: "Mock Tests",
                 nav_mains: "Mains Writing",
                 nav_videos: "Video Lectures",
-                nav_papers: "Previous Papers",
+                nav_schemes: "Schemes & Budget",
                 nav_affairs: "Current Affairs",
                 nav_tips: "Prep Tips & Books",
                 user_title: "APPSC Aspirant",
@@ -2496,7 +2617,7 @@
                 nav_mock: "మాక్ టెస్టులు",
                 nav_mains: "మెయిన్స్ రైటింగ్",
                 nav_videos: "వీడియో లెక్చర్స్",
-                nav_papers: "మునుపటి పేపర్లు",
+                nav_schemes: "పథకాలు & బడ్జెట్",
                 nav_affairs: "కరెంట్ అఫైర్స్",
                 nav_tips: "ప్రిపరేషన్ టిప్స్ & బుక్స్",
                 user_title: "ఆంధ్రప్రదేశ్ అభ్యర్థి",
@@ -2711,6 +2832,7 @@
             document.getElementById('schedule-input-date').value = todayStr;
             updateCountdowns();
             loadDailyTargets();
+            loadSchemesState();
             fetchSettings();
             fetchSyllabus();
             fetchLogs();
@@ -4455,6 +4577,11 @@
             }
         }
 
+        function exitQuiz() {
+            clearInterval(simTimerInterval);
+            resetQuizView();
+        }
+
         // Quiz Logic & Timed simulator
         async function startQuiz(subject) {
             activeQuizSubject = subject;
@@ -4688,6 +4815,26 @@
             document.getElementById('quiz-results-box').classList.add('hidden');
             document.getElementById('quiz-active-box').classList.add('hidden');
             document.getElementById('quiz-intro-box').classList.remove('hidden');
+        }
+
+        // AP Schemes State Management
+        function loadSchemesState() {
+            const completed = getLocal('off_completed_schemes', {});
+            [1, 2, 3, 4, 5, 6].forEach(id => {
+                const el = document.getElementById(`scheme-${id}`);
+                if (el) {
+                    el.checked = !!completed[id];
+                }
+            });
+        }
+
+        function toggleScheme(id) {
+            const completed = getLocal('off_completed_schemes', {});
+            const el = document.getElementById(`scheme-${id}`);
+            if (el) {
+                completed[id] = el.checked;
+                setLocal('off_completed_schemes', completed);
+            }
         }
 
         // Daily Planner (To-Do list)
@@ -5309,7 +5456,35 @@
             ]
         };
 
+        let mapGuessMode = false;
+        let currentMapType = 'rivers';
+
+        function toggleMapMode() {
+            mapGuessMode = !mapGuessMode;
+            const btn = document.getElementById('map-mode-btn');
+            if (btn) {
+                if (mapGuessMode) {
+                    btn.innerHTML = `<i class="fa-solid fa-eye mr-1.5"></i> Study Mode`;
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-850 bg-slate-900 hover:bg-slate-850 text-emerald-400 hover:text-emerald-350 cursor-pointer transition-all flex items-center";
+                } else {
+                    btn.innerHTML = `<i class="fa-solid fa-eye-slash mr-1.5"></i> Active Recall Mode`;
+                    btn.className = "px-3 py-1.5 rounded-lg text-xs font-bold border border-slate-850 bg-slate-900 hover:bg-slate-850 text-indigo-400 hover:text-indigo-350 cursor-pointer transition-all flex items-center";
+                }
+            }
+            switchGeoMap(currentMapType);
+        }
+
+        function revealMapLocation(index) {
+            const detailsBox = document.getElementById(`recall-details-${index}`);
+            const btn = document.getElementById(`btn-reveal-${index}`);
+            if (detailsBox && btn) {
+                detailsBox.classList.toggle('hidden');
+                btn.innerText = detailsBox.classList.contains('hidden') ? "Reveal" : "Hide";
+            }
+        }
+
         function switchGeoMap(mapType) {
+            currentMapType = mapType;
             const mapImg = document.getElementById('geo-map-img');
             const guideContainer = document.getElementById('geo-map-guide-container');
             if (!mapImg || !guideContainer) return;
@@ -5334,17 +5509,33 @@
 
             guideContainer.innerHTML = '';
             const locations = GEO_MAP_DATA[mapType] || [];
-            locations.forEach(loc => {
+            locations.forEach((loc, index) => {
                 const locCard = document.createElement('div');
                 locCard.className = 'p-3 bg-slate-900 border border-slate-800 rounded-lg space-y-1 hover:border-slate-700 transition-colors mt-3';
-                locCard.innerHTML = `
-                    <div class="font-bold text-slate-200 text-xs flex items-center">
-                        <i class="fa-solid fa-location-pin text-rose-500 mr-1.5"></i>
-                        <span>${loc.name}</span>
-                    </div>
-                    <p class="text-[11px] text-slate-400 leading-normal"><strong class="text-indigo-400">${globalLang === 'te' ? 'భౌగోళిక వివరాలు:' : 'Details:'}</strong> ${loc.details}</p>
-                    <p class="text-[11px] text-slate-300 leading-normal"><strong class="text-emerald-400">${globalLang === 'te' ? 'పరీక్షా ప్రాముఖ్యత:' : 'Exam Weightage:'}</strong> ${loc.importance}</p>
-                `;
+                if (mapGuessMode) {
+                    locCard.innerHTML = `
+                        <div class="font-bold text-slate-200 text-xs flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-location-pin text-rose-500 mr-1.5"></i>
+                                <span>${loc.name}</span>
+                            </div>
+                            <button onclick="revealMapLocation(${index})" id="btn-reveal-${index}" class="px-2 py-0.5 rounded text-[10px] bg-indigo-955 border border-indigo-800 text-indigo-400 hover:text-white cursor-pointer transition-all">Reveal</button>
+                        </div>
+                        <div id="recall-details-${index}" class="hidden space-y-1 mt-1 pt-1.5 border-t border-slate-850">
+                            <p class="text-[11px] text-slate-400 leading-normal"><strong class="text-indigo-400">${globalLang === 'te' ? 'భౌగోళిక వివరాలు:' : 'Details:'}</strong> ${loc.details}</p>
+                            <p class="text-[11px] text-slate-300 leading-normal"><strong class="text-emerald-400">${globalLang === 'te' ? 'పరీక్షా ప్రాముఖ్యత:' : 'Exam Weightage:'}</strong> ${loc.importance}</p>
+                        </div>
+                    `;
+                } else {
+                    locCard.innerHTML = `
+                        <div class="font-bold text-slate-200 text-xs flex items-center">
+                            <i class="fa-solid fa-location-pin text-rose-500 mr-1.5"></i>
+                            <span>${loc.name}</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 leading-normal"><strong class="text-indigo-400">${globalLang === 'te' ? 'భౌగోళిక వివరాలు:' : 'Details:'}</strong> ${loc.details}</p>
+                        <p class="text-[11px] text-slate-300 leading-normal"><strong class="text-emerald-400">${globalLang === 'te' ? 'పరీక్షా ప్రాముఖ్యత:' : 'Exam Weightage:'}</strong> ${loc.importance}</p>
+                    `;
+                }
                 guideContainer.appendChild(locCard);
             });
         }
